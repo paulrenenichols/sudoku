@@ -1,18 +1,41 @@
-function SudokuInterface() {
+var SudokuInterface = (function nameSpace() {
+	
+	/*
+	 * PRIVATE
+	 */
+	var minimumTileWidth = 10;
+	var minimumDividerWidth = 1;
+	
+	var countOfTiles = 9;
+	var countOfDividers = 10;
+	
+	var minimumInterfaceWidth = (minimumTileWidth * countOfTiles) 
+									+ (minimumDividerWidth * countOfDividers); 
+	
+	function calculateTileWidth(proposedInterfaceWidth) {
+		
+		if (arguments.length == 0) {		//No arguments provided
+			throw new Error('No proposedInterfaceWidth given to function');
+		}
+		else if (arguments.length == 1) {	//The width of the sudoku interface has been provided
+			
+			if ( ( typeof proposedInterfaceWidth != "number" ) 
+					|| ( isNaN(proposedInterfaceWidth) )) {
+				throw new Error("proposedInterfaceWidth is Not a Number");
+			}
+
+		}
+	}
+	
+	/*
+	 * PUBLIC
+	 */
+	
 	
 	/*
 	 * Constructor for the SudokuInterface class
 	 */
 	function SudokuInterface() {
-		
-		this.minimumTileWidth = 10;
-		this.minimumDividerWidth = 1;
-		
-		this.countOfTiles = 9;
-		this.countOfDividers = 10;
-		
-		this.minimumInterfaceWidth = (this.minimumTileWidth * this.countOfTiles) 
-										+ (this.minimumDividerWidth * this.countOfDividers); 
 		
 		if (arguments.length == 0) {		//No arguments provided
 			
@@ -31,13 +54,13 @@ function SudokuInterface() {
 			throw new Error("Width of Sudoku Interface not provided or NaN");
 		}
 		
-		if (this.interfaceWidth < this.minimumInterfaceWidth) {
+		if (this.interfaceWidth < minimumInterfaceWidth) {
 			throw new Error("Specified interface width is insufficient.  Width must be at least " 
-								+ this.minimumInterfaceWidth + " pixels");
+								+ minimumInterfaceWidth + " pixels");
 		}
 		
 		this.tileWidthMultiplier = Math.floor( this.interfaceWidth 
-						/  ( this.countOfTiles * (this.minimumTileWidth + this.minimumDividerWidth) ));
+				/  ( countOfTiles * (minimumTileWidth + minimumDividerWidth) ));
 		
 		if ( ( (this.tileWidthMultiplier * this.countOfTiles * this.minimumTileWidth) 
 				+ (this.tileWidthMultiplier * this.countOfDividers * this.minimumDividerWidth) ) > this.interfaceWidth ) {
@@ -49,4 +72,4 @@ function SudokuInterface() {
 		this.dividerWidth = this.tileWidthMultiplier * this.minimumDividerWidth;
 		this.interfaceWidth = (this.countOfTiles * this.tileWidth) + (this.countOfDividers * this.dividerWidth);
 	};
-};
+}());
