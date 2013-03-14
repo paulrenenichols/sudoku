@@ -6,26 +6,28 @@
 <script src="../js/lib/jquery.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {
+
+
 	
-var Obj = (function() {
+function closing(number) {
+	return function() {
+		return number;
+	};
+};
+
+var myNumber = 4;
 	
-	var docRoot = '/somewhere';
-    return {
+var closed = closing(myNumber);
 
-        set: function(val) {
-            docRoot = val;
-        },
-		get: function() {
-            return docRoot;
-        }
-    };
-}());
+$('body').append("myNumber: " + myNumber + "<br>");
+$('body').append("closed(): " + closed() + "<br>");
 
+$('body').append("<br><br>");
 
+myNumber = 10;
 
-$('body').html(Obj.get());
-
-$('body').append("<br><br>" + Obj.docRoot);
+$('body').append("myNumber: " + myNumber + "<br>");
+$('body').append("closed(): " + closed() + "<br>");
 
 //$('body').html("bob");
 

@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here</title>
+<script src="../js/lib/jquery.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+	
+var myObj = { value: 3 };
+
+myObj.calcDouble = function() {
+	
+	// 'this' is not tied to the outer function, it is tied to the global object
+	// Thus we are creating a new property on the global object
+	var helper = function() {
+		this.value = this.value + this.value;
+	};
+	
+	helper();
+};
+
+myObj.calcDouble();
+
+$('body').html("with 'this' value is: " + myObj.value + "<br><br>");
+
+
+myObj.calcDouble = function() {
+	
+	// We are saving the 'this', which refers to 'myObj', as 'that'
+	// Since 'that' is declared in the outer function, it is in scope in the inner function
+    var that = this;
+    
+    var helper = function() {
+        that.value = that.value + that.value;
+    };
+    
+    helper();
+};
+
+myObj.calcDouble();
+
+$('body').append("with 'that' value is: " + myObj.value + "<br><br>");
+
+});
+</script>
+</head>
+<body>
+
+</body>
+</html>

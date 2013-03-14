@@ -12,19 +12,25 @@ var SudokuInterface = (function nameSpace() {
 	var minimumInterfaceWidth = (minimumTileWidth * countOfTiles) 
 									+ (minimumDividerWidth * countOfDividers); 
 	
-	function calculateTileWidth(proposedInterfaceWidth) {
+	function calculateTileWidth(interfaceWidth) {
 		
 		if (arguments.length == 0) {		//No arguments provided
-			throw new Error('No proposedInterfaceWidth given to function');
+			throw new Error('No interfaceWidth given to function');
 		}
 		else if (arguments.length == 1) {	//The width of the sudoku interface has been provided
 			
-			if ( ( typeof proposedInterfaceWidth != "number" ) 
-					|| ( isNaN(proposedInterfaceWidth) )) {
-				throw new Error("proposedInterfaceWidth is Not a Number");
+			if ( ( typeof interfaceWidth != "number" ) 
+					|| ( isNaN(interfaceWidth) )) {
+				throw new Error("interfaceWidth is Not a Number");
 			}
-
 		}
+		
+		if (interfaceWidth < minimumInterfaceWidth) {
+			throw new Error("interfaceWidth is smaller than the Minimum Interface Width of " 
+								+ minimumInterfaceWidth + " pixels");
+		}
+		
+		
 	}
 	
 	/*
