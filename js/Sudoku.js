@@ -63,8 +63,23 @@ Sudoku.sudokuInterface = function(width) {
 		}
 	}
 	
+	//  The 'minimum size multiplier' is the ratio of the
+	//    proposed interface width to the minimum interface
+	//    width.
+	//  If this ratio is 1, the minimumInterfaceWidth is used.
+	//  If this ratio is greater, then we are going to have
+	//    a larger interface width.
+	//
+	function calculateMinimumSizeMultiplier(width) {
+		
+		return Math.floor( width / minimumInterfaceWidth );
+	};
+	
 	function calculateTileWidth(width) {
-				
+		
+		var calculatedTileWidth;
+		var minimumSizeMultiplier = calculateMinimumSizeMultiplier(width);
+		
 	};
 	
 	
