@@ -73,8 +73,42 @@ Sudoku.sudokuInterface = function(width, minimumTileWidth, minimumDividerWidth) 
 		}
 	};
 	
+	function isUndefined(value) {
+		if (typeof value === 'undefined') {
+			return true;
+		}
+		else {
+			return false;
+		}
+	};
+	
+	function setMinimumTileWidth(minimumTileWidth) {
+		
+		_error = false;
+		if ( !isPositiveInteger(minimumTileWidth) ) {
+			_error = 'setMinimumTileWidth: parameter is not a positive integer';
+		}
+		else {
+			_minimumTileWidth = minimumTileWidth;
+		}
+		
+		return _error;
+	};
+
 	function getMinimumTileWidth() {
 		return _minimumTileWidth;
+	};
+	
+	function setMinimumDividerWidth(minimumDividerWidth) {
+		_error = false;
+		if ( !isPositiveInteger(minimumDividerWidth) ) {
+			_error = 'setMinimumDividerWidth: parameter is not a positive integer';
+		}
+		else {
+			 _minimumDividerWidth = minimumDividerWidth;
+		}
+		
+		return _error;
 	};
 	
 	function getMinimumDividerWidth() {
@@ -135,7 +169,7 @@ Sudoku.sudokuInterface = function(width, minimumTileWidth, minimumDividerWidth) 
 	 * If this ratio is greater, then we are going to have
 	 *   a larger interface width.
 	 *   
-	 * @param {Number} width The proposed interface width
+	 * @param width {Number} The proposed interface width
 	 * @returns {Number} A size multiplier that defines the 
 	 * width of the interface as multiplier * _minimumWidth
 	 */
@@ -161,9 +195,25 @@ Sudoku.sudokuInterface = function(width, minimumTileWidth, minimumDividerWidth) 
 		return _width;
 	};
 	
-	function resize(width, minimumTileWidth, minimumDividerWidth) {
-		
-		var resizeSucceeded = true;
+	/**
+	 * The init function constructs all of stored values in the object
+	 * based on the width, minimumTileWidth, and minimumDividerWidth
+	 * parameters.
+	 * 
+	 * This function requires that _width > _minimumWidth and that all 
+	 * parameters must be positive integers or the width must be 
+	 * positive and the other two must be undefined.
+	 * 
+	 * If these conditions are not satisfied, and error is returned
+	 * and the private _error variable is set.
+	 * 
+	 * @param width {Number} Positive integer representing desired with of interface
+	 * @param minimumTileWidth {Number} Optional positive integer representing minimum tile width 
+	 * @param minimumDividerWidth {Number} Optional positive integer representing minimum divider width
+	 * @returns Error string that may be false, indicating no error
+	 */
+	function init(width, minimumTileWidth, minimumDividerWidth) {
+
 		_error = false;
 		
 		if ( isPositiveInteger(width) && isPositiveInteger(minimumTileWidth) && isPositiveInteger(minimumDividerWidth) ) {		
@@ -176,11 +226,11 @@ Sudoku.sudokuInterface = function(width, minimumTileWidth, minimumDividerWidth) 
 			_dividerWidth = calculateDividerWidth();
 			
 			if (_width < _minimumWidth ) {
-				_error = 'Provided width is insufficient';
-				resizeSucceeded = false;
+				_error = 'Construction error: Provided width is insufficient';
 			}
 		}
-		else if ( isPositiveInteger(width) ) {
+		else if ( isPositiveInteger(width) && 
+				isUndefined(minimumTileWidth) && isUndefined(minimumDividerWidth) ) {
 			_minimumTileWidth = _defaultMinimumTileWidth;
 			_minimumDividerWidth = _defaultMinimumDividerWidth;
 			_minimumWidth = calculateMinimumWidth();
@@ -190,16 +240,43 @@ Sudoku.sudokuInterface = function(width, minimumTileWidth, minimumDividerWidth) 
 			_dividerWidth = calculateDividerWidth();
 			
 			if (_width < _minimumWidth ) {
-				_error = 'Provided width is insufficient';
-				resizeSucceeded = false;
+				_error = 'Construction error: Provided width is insufficient';
 			}
 		}
 		else {
-			_error = 'No valid arguments provided to resize: must at least provide positive integer for suggested width';
-			resizeSucceeded = false;
+			_error = 'Construction error: Either no valid parameters were provided, or a mix of valid, invalid, and undefined parameters were given';
 		}
 		
-		return resizeSucceeded;
+		return _error;
+	};
+	
+	/**
+	 * Resize the canvas to the next biggest size that is less
+	 * than or equal to width
+	 * 
+	 * @param width {Number} Proposed width for resize operation 
+	 * @returns Error string that may be false.  False indicates success.
+	 */
+	function resize(width) {
+		
+		_error = false;
+		
+		if ( isPositiveInteger(width) ) {
+			_minimumWidth = calculateMinimumWidth();
+			_minimumWidthMultiplier = calculateMinimumWidthMultiplier(width);
+			_width = calculateWidth();
+			_tileWidth = calculateTileWidth();
+			_dividerWidth = calculateDividerWidth();
+			
+			if (_width < _minimumWidth ) {
+				_error = 'resize: Provided width is too small';
+			}
+		}
+		else {
+			_error = 'resize: width parameter provided is not a positive integer';
+		}
+		
+		return _error;
 	};
 	
 	//PUBLIC
@@ -211,16 +288,7 @@ Sudoku.sudokuInterface = function(width, minimumTileWidth, minimumDividerWidth) 
 	/**
 	 * Initialize the size of the interface before returning it.
 	 */
-	if (!_that.resize(width, minimumTileWidth, minimumDividerWidth)) {
-		if ( !isPositiveInteger(width) && !isPositiveInteger(minimumTileWidth) 
-				&& !isPositiveInteger(minimumDividerWidth) ) {
-			
-			_error = 'No valid parameters provided to constructor';
-		}
-		else if ( !isPositiveInteger(width) ) {
-			_error = 'Width parameter is not a positive integer';
-		}
-	}
+	init(width, minimumTileWidth, minimumDividerWidth);
 	
 	return _that;
 };
