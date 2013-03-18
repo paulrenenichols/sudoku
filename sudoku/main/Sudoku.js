@@ -211,7 +211,7 @@ Sudoku.sudokuInterface = function(width, minimumTileWidth, minimumDividerWidth) 
 	
 
 	function calculateWidth(width) {
-		return (_countOfDividers * getDividerWidth(width)) + (_countOfTiles * getTileWidth(width));
+		return (_countOfDividers * calculateDividerWidth(width)) + (_countOfTiles * calculateTileWidth(width));
 	};
 	
 	function getWidth() {
@@ -246,9 +246,9 @@ Sudoku.sudokuInterface = function(width, minimumTileWidth, minimumDividerWidth) 
 			_minimumDividerWidth = minimumDividerWidth;
 			_minimumWidth = calculateMinimumWidth(minimumTileWidth, minimumDividerWidth);
 			_minimumWidthMultiplier = calculateMinimumWidthMultiplier(width);
-			_width = calculateWidth();
 			_tileWidth = calculateTileWidth();
 			_dividerWidth = calculateDividerWidth();
+			_width = calculateWidth();
 			
 			if (_width < _minimumWidth ) {
 				_error = 'Construction error: Provided width is insufficient';
@@ -260,9 +260,10 @@ Sudoku.sudokuInterface = function(width, minimumTileWidth, minimumDividerWidth) 
 			_minimumDividerWidth = _defaultMinimumDividerWidth;
 			_minimumWidth = calculateMinimumWidth();
 			_minimumWidthMultiplier = calculateMinimumWidthMultiplier(width);
-			_width = calculateWidth();
 			_tileWidth = calculateTileWidth();
 			_dividerWidth = calculateDividerWidth();
+			_width = calculateWidth();
+
 			
 			if (_width < _minimumWidth ) {
 				_error = 'Construction error: Provided width is insufficient';
@@ -290,9 +291,9 @@ Sudoku.sudokuInterface = function(width, minimumTileWidth, minimumDividerWidth) 
 		if ( isPositiveInteger(width) ) {
 			_minimumWidth = calculateMinimumWidth();
 			_minimumWidthMultiplier = calculateMinimumWidthMultiplier(width);
-			_width = calculateWidth();
 			_tileWidth = calculateTileWidth();
 			_dividerWidth = calculateDividerWidth();
+			_width = calculateWidth();
 			
 			if (_width < _minimumWidth ) {
 				_error = 'resize: Provided width is too small';
