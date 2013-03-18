@@ -1,4 +1,4 @@
-var Sudoku = {};
+axvar Sudoku = {};
 	
 Sudoku.sudokuInterface = function(width) {
 	
@@ -24,7 +24,7 @@ Sudoku.sudokuInterface = function(width) {
 	//    in testing to see if the 'width' parameter to the constructor
 	//    is valid.
 	//
-	function interfaceWidthIsNotANumber(width) {
+	function interfaceWidthIsNaN(width) {
 		
 		if ( ( typeof width != "number" ) ||
 				( isNaN(width) )) {
@@ -54,7 +54,7 @@ Sudoku.sudokuInterface = function(width) {
 	}
 	else if ( arguments.length === 1 ) {
 		
-		if ( interfaceWidthIsNotANumber(width) ) {
+		if ( interfaceWidthIsNaN(width) ) {
 			throw new Error("The width of the interface must be a number");
 		}
 		else if ( interfaceWidthIsSmallerThanMinimumSize(width) ) {
@@ -70,19 +70,31 @@ Sudoku.sudokuInterface = function(width) {
 	//  If this ratio is greater, then we are going to have
 	//    a larger interface width.
 	//
-	function calculateMinimumSizeMultiplier(width) {
+	function minimumSizeMultiplier(width) {
 		
 		return Math.floor( width / minimumInterfaceWidth );
 	};
 	
-	function calculateTileWidth(width) {
+	function getTileWidth(width) {
 		
-		var calculatedTileWidth;
-		var minimumSizeMultiplier = calculateMinimumSizeMultiplier(width);
-		
+		return minimumTileWidth * minimumSizeMultiplier(width);
 	};
 	
+	function getMinimumTileWidth() {
+		return minimumTileWidth;
+	};
+	
+	function getMinimumDividerWidth() {
+		return minimumDividerWidth;
+	};
 	
 	//PUBLIC
 	//
+	that.interfaceWidthIsNaN = interfaceWidtdIsNaN;
+	that.interfaceWidthIsSmallerThanMinimumSize = interfaceWidthIsSmallerThanMinimumSize;
+	that.minimumSizeMultiplier = minimumSizeMultiplier;
+	that.getTileWidth = getTileWidth;
+	that.getMinimumTileWidth = getMinimumTileWidth;
+	that.getMinimumDividerWidth = getMinimumDividerWidth;
+	
 };
