@@ -11,7 +11,17 @@
     <script src="qunit-1.11.0.js"></script>
     <script src="../main/Sudoku.js"></script>
     <script>
-    
+	    module("sudokuInterface constructor test");
+	    test("successful construction test", function() {
+	    	var sudokuInterface = Sudoku.sudokuInterface(900); 
+	    	ok(!sudokuInterface.getError() , "construction was successful");
+	    	sudokuInterface = Sudoku.sudokuInterface();
+	    	ok(sudokuInterface.getError(), "No arguments, this error was generated: " + sudokuInterface.getError());
+	    });
+	    
+	    test("interface width testing", function() {
+	    	ok(Sudoku.sudokuInterface(900).getWidth() <= 900, "test works");
+	    });
     </script>
 </body>
 </html>
