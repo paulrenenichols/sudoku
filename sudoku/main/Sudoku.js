@@ -62,6 +62,14 @@ Sudoku.sudokuInterface = function(width, minimumTileWidth, minimumDividerWidth) 
 		return _error;
 	};
 
+	function getCountOfTiles() {
+		return _countOfTiles;
+	}
+	
+	function getCountOfDividers() {
+		return _countOfDividers;
+	}
+	
 	function isPositiveInteger(number) {
 		if ( !isNaN(number) && ( typeof number === 'number') && 
 				(number > 0) && (number === Math.floor(number)) ) {
@@ -145,18 +153,32 @@ Sudoku.sudokuInterface = function(width, minimumTileWidth, minimumDividerWidth) 
 	};
 	
 	/**
-	 * This function calculates and returns the minimum interface width
+	 * This function calculates and returns the minimum interface width.
+	 * This function tries to use the parameters first, setting the private
+	 * properties to the values provided in the parameters.
+	 * If no parameters, it uses the private values stored in the object
+	 * if those values are positive integers.
+	 * If the stored values are not both positive integers, it sets them
+	 * to the default values and then calculates the minimum width.
 	 * 
+	 * @method calculateMinimumWidth
 	 * @param minimumTileWidth {Number}
 	 * @param minimumDividerWidth {Number}
 	 * @returns {Number} The minimum width that the interface can have.
 	 */
 	function calculateMinimumWidth(minimumTileWidth, minimumDividerWidth) {
 		if( isPositiveInteger(minimumTileWidth) && isPositiveInteger(minimumDividerWidth) ) {
-			return (minimumTileWidth * _countOfTiles) + (minimumDividerWidth * _countOfDividers);
+			setMinimumDividerWidth(minimumDividerWidth);
+			setMinimumTileWidth(minimumTileWidth);
+			return (_minimumTileWidth * _countOfTiles) + (_minimumDividerWidth * _countOfDividers);
+		}
+		else if ( isPositiveInteger(_minimumTileWidth) && isPositiveInteger(_minimumDividerWidth) ) {
+			return (_minimumTileWidth * _countOfTiles) + (_minimumDividerWidth * _countOfDividers);
 		}
 		else {
-			return _minimumWidth;
+			setMinimumDividerWidth(_defaultMinimumDividerWidth);
+			setMinimumTileWidth(_defaultMinimumTileWidth);
+			return (_minimumTileWidth * _countOfTiles) + (_minimumDividerWidth * _countOfDividers);
 		}
 	};
 	
@@ -169,6 +191,7 @@ Sudoku.sudokuInterface = function(width, minimumTileWidth, minimumDividerWidth) 
 	 * If this ratio is greater, then we are going to have
 	 *   a larger interface width.
 	 *   
+	 * @method calculateMinimumWidthMultiplier
 	 * @param width {Number} The proposed interface width
 	 * @returns {Number} A size multiplier that defines the 
 	 * width of the interface as multiplier * _minimumWidth
@@ -207,6 +230,8 @@ Sudoku.sudokuInterface = function(width, minimumTileWidth, minimumDividerWidth) 
 	 * If these conditions are not satisfied, and error is returned
 	 * and the private _error variable is set.
 	 * 
+	 * @method init
+	 * @private
 	 * @param width {Number} Positive integer representing desired with of interface
 	 * @param minimumTileWidth {Number} Optional positive integer representing minimum tile width 
 	 * @param minimumDividerWidth {Number} Optional positive integer representing minimum divider width
@@ -254,6 +279,7 @@ Sudoku.sudokuInterface = function(width, minimumTileWidth, minimumDividerWidth) 
 	 * Resize the canvas to the next biggest size that is less
 	 * than or equal to width
 	 * 
+	 * @method resize
 	 * @param width {Number} Proposed width for resize operation 
 	 * @returns Error string that may be false.  False indicates success.
 	 */
@@ -284,6 +310,11 @@ Sudoku.sudokuInterface = function(width, minimumTileWidth, minimumDividerWidth) 
 	_that.resize = resize;
 	_that.getWidth = getWidth;
 	_that.getError = getError;
+	_that.calculateWidth = calculateWidth;
+	_that.getCountOfTiles = getCountOfTiles;
+	_that.getCountOfDividers = getCountOfDividers;
+	_that.calculateDividerWidth = calculateDividerWidth;
+	_that.calculateTileWidth = calculateTileWidth;
 	
 	/**
 	 * Initialize the size of the interface before returning it.

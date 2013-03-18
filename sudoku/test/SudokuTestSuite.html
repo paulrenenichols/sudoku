@@ -13,8 +13,15 @@
     <script>
 	    module("sudokuInterface constructor test");
 	    test("successful construction test", function() {
-	    	var sudokuInterface = Sudoku.sudokuInterface(900); 
+	    	var width = 900;
+	    	var sudokuInterface = Sudoku.sudokuInterface(width);
+	    	var expectedInterfaceWidth = (sudokuInterface.getCountOfTiles() * sudokuInterface.calculateTileWidth(width)) +
+	    	   (sudokuInterface.getCountOfDividers * sudokuInterface.calculateDividerWidth(width));
 	    	ok(!sudokuInterface.getError() , "construction was successful");
+	    	ok(sudokuInterface.getWidth() === expectedInterfaceWidth, "interface constructed using width of " + 
+	    		    width + " pixels succeeded with final width of " + sudokuInterface.getWidth());
+	    	
+	    	
 	    	sudokuInterface = Sudoku.sudokuInterface();
 	    	ok(sudokuInterface.getError(), "No arguments, this error was generated: " + sudokuInterface.getError());
 	    });
