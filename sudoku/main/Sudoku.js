@@ -124,7 +124,7 @@ Sudoku.sudokuInterface = function(width, minimumTileWidth, minimumDividerWidth) 
 		return _minimumDividerWidth;
 	};
 	
-	function geDefaulttMinimumTileWidth() {
+	function getDefaultMinimumTileWidth() {
 		return _defaultMinimumTileWidth;
 	};
 	
