@@ -200,7 +200,7 @@
             failedConstruction(largePositiveFloatParameter, smallPositiveIntegerParameter, smallPositiveIntegerParameter);
 	    });
 	    
-	    module("Sudoku.sudokuInterface getError() Tests");
+	    module("Sudoku.sudokuInterface.getError() Tests");
 	    test("Tests that don't generate errors", function() {
 	    	
 	    	var sudokuInterface = Sudoku.sudokuInterface(900);
@@ -284,6 +284,15 @@
             sudokuInterface.calculateMinimumWidth(20, 2);
             ok(!sudokuInterface.getError(), "no errors generated from proper call to calculateMinimumWidth()");
         });
+	    
+	    module("Sudoku.sudokuInterface getCountOfTiles() and getCountOfDividers()");
+	    test("Count of Tiles is 9, Count of Dividers is 10", function() {
+	        var sudokuInterface = Sudoku.sudokuInterface(900);
+	        ok(!sudokuInterface.getError(), "no errors generated from proper construction");
+	            
+	        ok(sudokuInterface.getCountOfTiles() === 9, "Count of tiles is always 9, output from getCountOfTiles() is: " + sudokuInterface.getCountOfTiles());
+	        ok(sudokuInterface.getCountOfDividers() === 10, "Count of dividers is always 10, output from getCountOfDividers() is: " + sudokuInterface.getCountOfDividers());
+	    });
     </script>
 </body>
 </html>

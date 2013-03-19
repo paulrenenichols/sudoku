@@ -68,10 +68,24 @@ Sudoku.sudokuInterface = function(width, minimumTileWidth, minimumDividerWidth) 
 		return _error;
 	};
 
+	/**
+	 * A sudoku game board is 9 tiles tall and
+	 * 9 tiles wide.
+	 * 
+	 * @returns {Number} The number of tiles in a dimension on the game board, which is 9.
+	 */
 	function getCountOfTiles() {
 		return _countOfTiles;
 	}
 	
+	/**
+	 * A sudoku game board has 10 dividers along its height
+	 * and width.  Along each dimension, 2 dividers sit outside
+	 * of the tiles making a boarder, while the other 8 dividers
+	 * separate the tiles.
+	 * 
+	 * @returns {Number} The number of dividers in a dimension, which is 10.
+	 */
 	function getCountOfDividers() {
 		return _countOfDividers;
 	}
