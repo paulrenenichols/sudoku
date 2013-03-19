@@ -200,9 +200,90 @@
             failedConstruction(largePositiveFloatParameter, smallPositiveIntegerParameter, smallPositiveIntegerParameter);
 	    });
 	    
-	    test("interface width testing", function() {
-	    	ok(Sudoku.sudokuInterface(900).getWidth() <= 900, "test works");
+	    module("Sudoku.sudokuInterface getError() Tests");
+	    test("Tests that don't generate errors", function() {
+	    	
+	    	var sudokuInterface = Sudoku.sudokuInterface(900);
+	    	ok(!sudokuInterface.getError(), "no errors generated from proper construction");
+	    	
+	    	sudokuInterface.setMinimumTileWidth(20);
+            ok(!sudokuInterface.getError(), "no errors generated from proper call to setMinimumTileWidth()");
+            
+            sudokuInterface.setMinimumDividerWidth(2);
+            ok(!sudokuInterface.getError(), "no errors generated from proper call to setMinimumDividerWidth()");
+	    	
+	    	sudokuInterface.calculateMinimumWidth(20, 2);
+	    	ok(!sudokuInterface.getError(), "no errors generated from proper call to calculateMinimumWidth()");
+	    	
+	    	sudokuInterface.resize(2000);
+            ok(!sudokuInterface.getError(), "no errors generated from proper call to resize()");
 	    });
+	    
+	    test("Error From bad construction parameters", function() {
+            
+            var sudokuInterface = Sudoku.sudokuInterface(900.99);
+            ok(sudokuInterface.getError(), "error from bad construction: " + sudokuInterface.getError());
+            
+        });
+	    
+	    test("Errors from bad calls after proper construction", function() {
+            
+            var sudokuInterface = Sudoku.sudokuInterface(900);
+            ok(!sudokuInterface.getError(), "no errors generated from proper construction");
+            sudokuInterface.setMinimumTileWidth(20.99);
+            ok(sudokuInterface.getError(), "error generated from proper call to setMinimumTileWidth(): " + sudokuInterface.getError());
+            
+            sudokuInterface = Sudoku.sudokuInterface(900);
+            ok(!sudokuInterface.getError(), "no errors generated from proper construction");
+            sudokuInterface.setMinimumDividerWidth(-2);
+            ok(sudokuInterface.getError(), "error generated from proper call to setMinimumDividerWidth(): " + sudokuInterface.getError());
+            
+            sudokuInterface = Sudoku.sudokuInterface(900);
+            ok(!sudokuInterface.getError(), "no errors generated from proper construction");
+            sudokuInterface.calculateMinimumWidth(20.3, -2);
+            ok(sudokuInterface.getError(), "error generated from proper call to calculateMinimumWidth(): " + sudokuInterface.getError());
+            
+            sudokuInterface = Sudoku.sudokuInterface(900);
+            ok(!sudokuInterface.getError(), "no errors generated from proper construction");
+            sudokuInterface.resize(null);
+            ok(sudokuInterface.getError(), "error generated from proper call to resize(), error string is: " + sudokuInterface.getError());
+        });
+	    
+	    test("Successful calls clear errors", function() {
+            
+            var sudokuInterface = Sudoku.sudokuInterface(900);
+            ok(!sudokuInterface.getError(), "no errors generated from proper construction");
+            
+            sudokuInterface.setMinimumTileWidth(20.99);
+            ok(sudokuInterface.getError(), "error generated from proper call to setMinimumTileWidth(): " + sudokuInterface.getError());
+            sudokuInterface.setMinimumTileWidth(20);
+            ok(!sudokuInterface.getError(), "no errors generated from proper call to setMinimumTileWidth()");
+            
+            sudokuInterface.setMinimumDividerWidth(-2);
+            ok(sudokuInterface.getError(), "error generated from proper call to setMinimumDividerWidth(): " + sudokuInterface.getError());
+            sudokuInterface.setMinimumDividerWidth(2);
+            ok(!sudokuInterface.getError(), "no errors generated from proper call to setMinimumDividerWidth()");
+            
+            sudokuInterface.calculateMinimumWidth(20.3, -2);
+            ok(sudokuInterface.getError(), "error generated from proper call to calculateMinimumWidth(): " + sudokuInterface.getError());
+            sudokuInterface.calculateMinimumWidth(20, 2);
+            ok(!sudokuInterface.getError(), "no errors generated from proper call to calculateMinimumWidth()");
+            
+            sudokuInterface.resize(null);
+            ok(sudokuInterface.getError(), "error generated from proper call to resize(), error string is: " + sudokuInterface.getError());
+            sudokuInterface.resize(2000);
+            ok(!sudokuInterface.getError(), "no errors generated from proper call to resize()");
+            
+            sudokuInterface.calculateMinimumWidth(20.3, -2);
+            ok(sudokuInterface.getError(), "error generated from proper call to calculateMinimumWidth(): " + sudokuInterface.getError());
+            sudokuInterface.resize(2000);
+            ok(!sudokuInterface.getError(), "no errors generated from proper call to resize()");
+            
+            sudokuInterface.setMinimumDividerWidth(-2);
+            ok(sudokuInterface.getError(), "error generated from proper call to setMinimumDividerWidth(): " + sudokuInterface.getError());
+            sudokuInterface.calculateMinimumWidth(20, 2);
+            ok(!sudokuInterface.getError(), "no errors generated from proper call to calculateMinimumWidth()");
+        });
     </script>
 </body>
 </html>
