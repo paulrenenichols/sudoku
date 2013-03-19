@@ -11,6 +11,104 @@
     <script src="qunit-1.11.0.js"></script>
     <script src="../main/Sudoku.js"></script>
     <script>
+    
+	    var TestHelp = (function() {
+	    	
+	    	var _that = {};
+	    	function isFloat(value) {
+	            if ( (typeof value === 'number') && (value !== Math.floor(value)) ) {
+	                return true;
+	            }
+	            else {
+	                return false;
+	            }
+	        };
+	        _that.isFloat = isFloat;
+	        
+	        function isPositive(value) {
+	            if ( (typeof value === 'number') && (value > 0) ) {
+	                return true;
+	            }
+	            else {
+	                return false;
+	            }
+	        };
+	        _that.isPositive = isPositive;
+	        
+	        function isNegative(value) {
+	            if ( (typeof value === 'number') && (value < 0) ) {
+	                return true;
+	            }
+	            else {
+	                return false;
+	            }
+	        };
+	        _that.isNegative = isNegative;
+	        
+	        function testParameterString() {
+	            
+	            var i;
+	            var argumentStrings = [];
+	            var type;
+	            var subtype;
+	            var value;
+	            for( i = 0; i < arguments.length; i++ ) {
+	                
+	                type = typeof arguments[i];
+	                subtype = '';
+	                value = arguments[i];
+	                
+	                if (type === 'number') {
+	                                    
+	                    if ( value === 0 ) {
+	                        subtype = 'zero';
+	                    }
+	                    else if ( isPositive(value) && isFloat(value) ) {
+	                        subtype = 'positive float ';
+	                    }
+	                    else if ( isNegative(value) && isFloat(value) ) {
+	                        subtype = 'negative float ';
+	                    }
+	                    else if ( isPositive(value) && !isFloat(value) ) {
+	                        subtype = 'positive integer ';
+	                    }
+	                    else if ( isNegative(value) && !isFloat(value) ) {
+	                        subtype = 'negative integer ';
+	                    }
+	                    
+	                    value = " " + value;
+	                }
+	                else if ( (type == 'object') && (value === null) ) {
+	                    value = " " + value;
+	                }
+	                else if ( type === 'undefined' ) {
+	                    value = "";
+	                }
+	                else if ( type === 'boolean') {
+	                	value = " " + value;
+	                }
+	                
+	                argumentStrings.push( "(" + subtype + type + value + ")" );
+	            }
+	            
+	            var paramString = arguments.length + " arguments: { ";
+	            for ( i = 0; i < argumentStrings.length; i++ ) {
+	                
+	                paramString = paramString + argumentStrings[i];
+	                
+	                if ( i !== argumentStrings.length - 1 ) {
+	                    paramString = paramString + ', ';   
+	                }
+	
+	            }
+	            paramString = paramString + " }, ";
+	            return paramString;
+	        };
+	        _that.testParameterString = testParameterString;
+	        
+	        return _that;
+	    }());
+	    
 	    module("Sudoku.sudokuInterface Construction Tests");
 	    test("Successful Construction Test, width is the only parameter", function() {
 	    	
@@ -48,6 +146,7 @@
                     width + " pixels succeeded with sudokuInterface.getWidth() (type " + typeof sudokuInterface.getWidth() + ") " + sudokuInterface.getWidth());
 	    });
 	    
+	    
 	    test("Failed Construction Test", function() {
 	    	
 	    	var nullParameter = null;
@@ -58,95 +157,11 @@
 	    	var smallPositiveIntegerParameter = 5;
 	    	var smallPositiveFloatParameter = 3.14;
 	    	var largePositiveIntegerParameter = 900;
-	    	var largePositiveFloatParameter = 1000.99;
-	    	
-	    	function isFloat(value) {
-	    		if ( (typeof value === 'number') && (value !== Math.floor(value)) ) {
-	    			return true;
-	    		}
-	    		else {
-	    			return false;
-	    		}
-	    	}
-	    	
-	        function isPositive(value) {
-                if ( (typeof value === 'number') && (value > 0) ) {
-                    return true;
-                }
-                else {
-                    return false;
-                }
-            }
-	    	
-	        function isNegative(value) {
-                if ( (typeof value === 'number') && (value < 0) ) {
-                    return true;
-                }
-                else {
-                    return false;
-                }
-            }
-	        
-	    	function testParameterString() {
-	    		
-	    		var i;
-	    		var argumentStrings = [];
-	    		var type;
-	    		var subtype;
-	    		var value;
-	    		for( i = 0; i < arguments.length; i++ ) {
-	    			
-	    			type = typeof arguments[i];
-	    			subtype = '';
-	    			value = arguments[i];
-	    			
-	    			if (type === 'number') {
-	    								
-	    				if ( value === 0 ) {
-	    					subtype = 'zero';
-	    				}
-	    				else if ( isPositive(value) && isFloat(value) ) {
-	    					subtype = 'positive float ';
-	    				}
-	    				else if ( isNegative(value) && isFloat(value) ) {
-                            subtype = 'negative float ';
-                        }
-	    				else if ( isPositive(value) && !isFloat(value) ) {
-                            subtype = 'positive integer ';
-                        }
-                        else if ( isNegative(value) && !isFloat(value) ) {
-                            subtype = 'negative integer ';
-                        }
-	    				
-	    				value = " " + value;
-	    			}
-	    			else if ( (type == 'object') && (value === null) ) {
-	    			    value = " " + value;
-	    			}
-	    			else if ( type === 'undefined' ) {
-	    				value = "";
-	    			}
-	    			
-	    			argumentStrings.push( "(" + subtype + type + value + ")" );
-	    		}
-	    		
-	    		var paramString = arguments.length + " arguments: { ";
-	    		for ( i = 0; i < argumentStrings.length; i++ ) {
-	    			
-	    			paramString = paramString + argumentStrings[i];
-	    			
-	    			if ( i !== argumentStrings.length - 1 ) {
-	    			    paramString = paramString + ', ';	
-	    			}
-
-	    		}
-	    		paramString = paramString + " }, ";
-	    		return paramString;
-	    	};
+	    	var largePositiveFloatParameter = 1000.99;    
 	    	
 	    	function failedConstruction() {
 	    		var sudokuInterface = Sudoku.sudokuInterface.apply(null, arguments);
-	            ok(sudokuInterface.getError(), testParameterString.apply(null, arguments) + "so construction failed, error is: " + sudokuInterface.getError());
+	            ok(sudokuInterface.getError(), TestHelp.testParameterString.apply(null, arguments) + "so construction failed, error is: " + sudokuInterface.getError());
 	    	}
 	    	
 	    	//Construction, no arguments
@@ -285,7 +300,7 @@
             ok(!sudokuInterface.getError(), "no errors generated from proper call to calculateMinimumWidth()");
         });
 	    
-	    module("Sudoku.sudokuInterface getCountOfTiles() and getCountOfDividers()");
+	    module("Sudoku.sudokuInterface getCountOfTiles() and getCountOfDividers() Tests");
 	    test("Count of Tiles is 9, Count of Dividers is 10", function() {
 	        var sudokuInterface = Sudoku.sudokuInterface(900);
 	        ok(!sudokuInterface.getError(), "no errors generated from proper construction");
@@ -293,6 +308,74 @@
 	        ok(sudokuInterface.getCountOfTiles() === 9, "Count of tiles is always 9, output from getCountOfTiles() is: " + sudokuInterface.getCountOfTiles());
 	        ok(sudokuInterface.getCountOfDividers() === 10, "Count of dividers is always 10, output from getCountOfDividers() is: " + sudokuInterface.getCountOfDividers());
 	    });
+	   
+	    module("Sudoku.sudokuInterface isPositiveInteger() and isUndefined() Tests");
+	    test("isPositiveInteger returns true only when its parameter is a positive integer", function() {
+	    	
+	    	var nullParameter = null;
+	    	var trueParameter = true;
+	    	var falseParameter = false;
+            var undefinedParameter;
+            var negativeIntegerParameter = -5;
+            var negativeFloatParameter = -3.14;
+            var zeroParameter = 0;
+            var smallPositiveIntegerParameter = 5;
+            var smallPositiveFloatParameter = 3.14;
+            var largePositiveIntegerParameter = 900;
+            var largePositiveFloatParameter = 1000.99;
+            
+            function testIsPositiveInteger(value, expectedResult) {
+            	var sudokuInterface = Sudoku.sudokuInterface(900);
+            	strictEqual(sudokuInterface.isPositiveInteger(value), expectedResult, "expecting isPostiveInteger() of " + 
+            			TestHelp.testParameterString(value) + " to evaluate to " + expectedResult + ".  Result was: " + sudokuInterface.isPositiveInteger(value));
+            };
+            
+            testIsPositiveInteger(nullParameter, false);
+            testIsPositiveInteger(trueParameter, false);
+            testIsPositiveInteger(falseParameter, false);
+            testIsPositiveInteger(undefinedParameter, false);
+            testIsPositiveInteger(negativeFloatParameter, false);
+            testIsPositiveInteger(negativeIntegerParameter, false);
+            testIsPositiveInteger(zeroParameter, false);
+            testIsPositiveInteger(smallPositiveFloatParameter, false);
+            testIsPositiveInteger(largePositiveFloatParameter, false);
+            
+            testIsPositiveInteger(smallPositiveIntegerParameter, true);
+            testIsPositiveInteger(largePositiveIntegerParameter, true);
+	    });
+	    test("isUndefined returns true only when its parameter is undefined", function() {
+            
+            var nullParameter = null;
+            var trueParameter = true;
+            var falseParameter = false;
+            var undefinedParameter;
+            var negativeIntegerParameter = -5;
+            var negativeFloatParameter = -3.14;
+            var zeroParameter = 0;
+            var smallPositiveIntegerParameter = 5;
+            var smallPositiveFloatParameter = 3.14;
+            var largePositiveIntegerParameter = 900;
+            var largePositiveFloatParameter = 1000.99;
+            
+            function testIsUndefined(value, expectedResult) {
+                var sudokuInterface = Sudoku.sudokuInterface(900);
+                strictEqual(sudokuInterface.isUndefined(value), expectedResult, "expecting isUndefined() of " + 
+                        TestHelp.testParameterString(value) + " to evaluate to " + expectedResult + ".  Result was: " + sudokuInterface.isUndefined(value));
+            };
+            
+            testIsUndefined(undefinedParameter, true);
+            
+            testIsUndefined(nullParameter, false);
+            testIsUndefined(trueParameter, false);
+            testIsUndefined(falseParameter, false);
+            testIsUndefined(negativeFloatParameter, false);
+            testIsUndefined(negativeIntegerParameter, false);
+            testIsUndefined(zeroParameter, false);
+            testIsUndefined(smallPositiveFloatParameter, false);
+            testIsUndefined(largePositiveFloatParameter, false);
+            testIsUndefined(smallPositiveIntegerParameter, false);
+            testIsUndefined(largePositiveIntegerParameter, false);
+        });
     </script>
 </body>
 </html>

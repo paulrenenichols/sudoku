@@ -101,7 +101,7 @@ Sudoku.sudokuInterface = function(width, minimumTileWidth, minimumDividerWidth) 
 	 * @returns {Boolean} True if input is a positive integer, false otherwise.
 	 */
 	function isPositiveInteger(value) {
-		if ( !isNaN(value) && ( typeof number === 'number') && 
+		if ( !isNaN(value) && ( typeof value === 'number') && 
 				(value > 0) && (value === Math.floor(value)) ) {
 			
 			return true;
