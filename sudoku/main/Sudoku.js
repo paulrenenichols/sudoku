@@ -108,6 +108,7 @@ Sudoku.sudokuInterface = function(width, minimumTileWidth, minimumDividerWidth) 
 	};
 	
 	function setMinimumDividerWidth(minimumDividerWidth) {
+		
 		_error = false;
 		if ( !isPositiveInteger(minimumDividerWidth) ) {
 			_error = 'setMinimumDividerWidth: parameter is not a positive integer';
@@ -154,12 +155,6 @@ Sudoku.sudokuInterface = function(width, minimumTileWidth, minimumDividerWidth) 
 	
 	/**
 	 * This function calculates and returns the minimum interface width.
-	 * This function tries to use the parameters first, setting the private
-	 * properties to the values provided in the parameters.
-	 * If no parameters, it uses the private values stored in the object
-	 * if those values are positive integers.
-	 * If the stored values are not both positive integers, it sets them
-	 * to the default values and then calculates the minimum width.
 	 * 
 	 * @method calculateMinimumWidth
 	 * @param minimumTileWidth {Number}
@@ -167,19 +162,17 @@ Sudoku.sudokuInterface = function(width, minimumTileWidth, minimumDividerWidth) 
 	 * @returns {Number} The minimum width that the interface can have.
 	 */
 	function calculateMinimumWidth(minimumTileWidth, minimumDividerWidth) {
+		
+		_error = false;
+		var minWidth = 0;
 		if( isPositiveInteger(minimumTileWidth) && isPositiveInteger(minimumDividerWidth) ) {
-			setMinimumDividerWidth(minimumDividerWidth);
-			setMinimumTileWidth(minimumTileWidth);
-			return (_minimumTileWidth * _countOfTiles) + (_minimumDividerWidth * _countOfDividers);
-		}
-		else if ( isPositiveInteger(_minimumTileWidth) && isPositiveInteger(_minimumDividerWidth) ) {
-			return (_minimumTileWidth * _countOfTiles) + (_minimumDividerWidth * _countOfDividers);
+			minWidth = (minimumTileWidth * _countOfTiles) + (minimumDividerWidth * _countOfDividers);
 		}
 		else {
-			setMinimumDividerWidth(_defaultMinimumDividerWidth);
-			setMinimumTileWidth(_defaultMinimumTileWidth);
-			return (_minimumTileWidth * _countOfTiles) + (_minimumDividerWidth * _countOfDividers);
+			_error = "calculateMinimumWidth(): missing or invalid parameters";
 		}
+		
+		return minWidth;
 	};
 	
 	/**
@@ -242,8 +235,8 @@ Sudoku.sudokuInterface = function(width, minimumTileWidth, minimumDividerWidth) 
 		_error = false;
 		
 		if ( isPositiveInteger(width) && isPositiveInteger(minimumTileWidth) && isPositiveInteger(minimumDividerWidth) ) {		
-			_minimumTileWidth = minimumTileWidth;
-			_minimumDividerWidth = minimumDividerWidth;
+			setMinimumTileWidth(minimumTileWidth);
+			setMinimumDividerWidth(minimumDividerWidth);
 			_minimumWidth = calculateMinimumWidth(minimumTileWidth, minimumDividerWidth);
 			_minimumWidthMultiplier = calculateMinimumWidthMultiplier(width);
 			_tileWidth = calculateTileWidth();
@@ -256,9 +249,9 @@ Sudoku.sudokuInterface = function(width, minimumTileWidth, minimumDividerWidth) 
 		}
 		else if ( isPositiveInteger(width) && 
 				isUndefined(minimumTileWidth) && isUndefined(minimumDividerWidth) ) {
-			_minimumTileWidth = _defaultMinimumTileWidth;
-			_minimumDividerWidth = _defaultMinimumDividerWidth;
-			_minimumWidth = calculateMinimumWidth();
+			setMinimumTileWidth(_defaultMinimumTileWidth);
+			setMinimumDividerWidth(_defaultMinimumDividerWidth);
+			_minimumWidth = calculateMinimumWidth(_minimumTileWidth, _minimumDividerWidth);
 			_minimumWidthMultiplier = calculateMinimumWidthMultiplier(width);
 			_tileWidth = calculateTileWidth();
 			_dividerWidth = calculateDividerWidth();
@@ -308,14 +301,38 @@ Sudoku.sudokuInterface = function(width, minimumTileWidth, minimumDividerWidth) 
 	
 	//PUBLIC
 	//
-	_that.resize = resize;
-	_that.getWidth = getWidth;
 	_that.getError = getError;
-	_that.calculateWidth = calculateWidth;
+	
 	_that.getCountOfTiles = getCountOfTiles;
 	_that.getCountOfDividers = getCountOfDividers;
+	
+	_that.isPositiveInteger = isPositiveInteger;
+	_that.isUndefined = isUndefined;
+	
+	_that.setMinimumTileWidth = setMinimumTileWidth;
+	_that.getMinimumTileWidth = getMinimumTileWidth;
+	_that.setMinimumDividerWidth = setMinimumDividerWidth;
+	_that.getMinimumDividerWidth = getMinimumDividerWidth;
+	
+	_that.getDefaultMinimumTileWidth = getDefaultMinimumTileWidth;
+	_that.getDefaultMinimumDividerWidth = getDefaultMinimumDividerWidth;
+	
+	_that.getDividerWidth = getDividerWidth;
 	_that.calculateDividerWidth = calculateDividerWidth;
+	
+	_that.getTileWidth = getTileWidth;
 	_that.calculateTileWidth = calculateTileWidth;
+	
+	_that.getMinimumWidth = getMinimumWidth;
+	_that.calculateMinimumWidth = calculateMinimumWidth;
+	
+	_that.getMinimumWidthMultiplier = getMinimumWidthMultiplier;
+	_that.calculateMinimumWidthMultiplier = calculateMinimumWidthMultiplier;
+	
+	_that.getWidth = getWidth;
+	_that.calculateWidth = calculateWidth;
+	
+	_that.resize = resize;
 	
 	/**
 	 * Initialize the size of the interface before returning it.
