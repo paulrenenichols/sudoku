@@ -157,21 +157,10 @@
             failedConstruction(nullParameter);
             failedConstruction(negativeIntegerParameter);
             failedConstruction(negativeFloatParameter);
-            //negativeFloat 
-            sudokuInterface = Sudoku.sudokuInterface(negativeFloatParameter);
-            ok(sudokuInterface.getError(), testParameterString(negativeFloatParameter) + "so construction failed, error is: " + sudokuInterface.getError());
-            //zero 
-            sudokuInterface = Sudoku.sudokuInterface(zeroParameter);
-            ok(sudokuInterface.getError(), testParameterString(zeroParameter) + "so construction failed, error is: " + sudokuInterface.getError());
-            //smallPositiveInt 
-            sudokuInterface = Sudoku.sudokuInterface(smallPositiveIntegerParameter);
-            ok(sudokuInterface.getError(), testParameterString(smallPositiveIntegerParameter) + "so construction failed, error is: " + sudokuInterface.getError());
-            //smallPositiveFloat 
-            sudokuInterface = Sudoku.sudokuInterface(smallPositiveFloatParameter);
-            ok(sudokuInterface.getError(), testParameterString(smallPositiveFloatParameter) + "so construction failed, error is: " + sudokuInterface.getError());
-            //largePositiveFloat
-            sudokuInterface = Sudoku.sudokuInterface(largePositiveFloatParameter);
-            ok(sudokuInterface.getError(), testParameterString(largePositiveFloatParameter) + "so construction failed, error is: " + sudokuInterface.getError());
+            failedConstruction(zeroParameter);
+            failedConstruction(smallPositiveFloatParameter);
+            failedConstruction(smallPositiveIntegerParameter);
+            failedConstruction(largePositiveFloatParameter);
             
             //Construction, two paramters, different values
             //undefined, undefined 
