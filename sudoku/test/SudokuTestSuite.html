@@ -145,7 +145,7 @@
 	    	};
 	    	
 	    	function failedConstruction() {
-	    		sudokuInterface = Sudoku.sudokuInterface.apply(null, arguments);
+	    		var sudokuInterface = Sudoku.sudokuInterface.apply(null, arguments);
 	            ok(sudokuInterface.getError(), testParameterString.apply(null, arguments) + "so construction failed, error is: " + sudokuInterface.getError());
 	    	}
 	    	
@@ -163,12 +163,41 @@
             failedConstruction(largePositiveFloatParameter);
             
             //Construction, two paramters, different values
-            //undefined, undefined 
-            sudokuInterface = Sudoku.sudokuInterface(undefinedParameter, undefinedParameter);
-            ok(sudokuInterface.getError(), testParameterString(undefinedParameter, undefinedParameter) + "so construction failed, error is: " + sudokuInterface.getError());
-            //null, null 
-            sudokuInterface = Sudoku.sudokuInterface(nullParameter, nullParameter);
-            ok(sudokuInterface.getError(), testParameterString(undefinedParameter, undefinedParameter) + "so construction failed, error is: " + sudokuInterface.getError());
+            failedConstruction(undefinedParameter, undefinedParameter);
+            failedConstruction(undefinedParameter, nullParameter);
+            failedConstruction(nullParameter, nullParameter);
+            failedConstruction(nullParameter, undefinedParameter);
+            failedConstruction(negativeIntegerParameter, smallPositiveIntegerParameter);
+            failedConstruction(negativeIntegerParameter, largePositiveFloatParameter);
+            failedConstruction(negativeIntegerParameter, undefinedParameter);
+            failedConstruction(smallPositiveIntegerParameter, undefinedParameter);
+            failedConstruction(smallPositiveIntegerParameter, nullParameter);
+            failedConstruction(largePositiveIntegerParameter, smallPositiveFloatParameter);
+            failedConstruction(largePositiveIntegerParameter, negativeFloatParameter);
+            failedConstruction(largePositiveIntegerParameter, negativeIntegerParameter);
+            failedConstruction(largePositiveFloatParameter, undefinedParameter);
+            failedConstruction(largePositiveFloatParameter, nullParameter);
+            failedConstruction(largePositiveFloatParameter, smallPositiveIntegerParameter);
+            
+            //Construction, three parameters, different values 
+            failedConstruction(undefinedParameter, undefinedParameter, undefinedParameter);
+            failedConstruction(undefinedParameter, nullParameter, nullParameter);
+            failedConstruction(undefinedParameter, smallPositiveIntegerParameter, smallPositiveIntegerParameter);
+            failedConstruction(nullParameter, nullParameter, nullParameter);
+            failedConstruction(nullParameter, undefinedParameter, undefinedParameter);
+            failedConstruction(nullParameter, smallPositiveIntegerParameter, smallPositiveIntegerParameter);
+            failedConstruction(negativeIntegerParameter, smallPositiveIntegerParameter, smallPositiveIntegerParameter);
+            failedConstruction(negativeIntegerParameter, undefinedParameter, undefinedParameter);
+            failedConstruction(negativeIntegerParameter, nullParameter, nullParameter);
+            failedConstruction(largePositiveFloatParameter, smallPositiveIntegerParameter, smallPositiveIntegerParameter);
+            failedConstruction(largePositiveIntegerParameter, undefinedParameter, smallPositiveIntegerParameter);
+            failedConstruction(largePositiveIntegerParameter, smallPositiveIntegerParameter, undefinedParameter);
+            failedConstruction(largePositiveIntegerParameter, nullParameter, smallPositiveIntegerParameter);
+            failedConstruction(largePositiveIntegerParameter, smallPositiveIntegerParameter, nullParameter);
+            failedConstruction(largePositiveIntegerParameter, smallPositiveFloatParameter, smallPositiveIntegerParameter);
+            failedConstruction(largePositiveIntegerParameter, smallPositiveIntegerParameter, smallPositiveFloatParameter);
+            failedConstruction(largePositiveIntegerParameter, smallPositiveFloatParameter, smallPositiveFloatParameter);
+            failedConstruction(largePositiveFloatParameter, smallPositiveIntegerParameter, smallPositiveIntegerParameter);
 	    });
 	    
 	    test("interface width testing", function() {
