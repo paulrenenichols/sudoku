@@ -123,8 +123,11 @@
 	    			else if ( (type == 'object') && (value === null) ) {
 	    			    value = " " + value;
 	    			}
+	    			else if ( type === 'undefined' ) {
+	    				value = "";
+	    			}
 	    			
-	    			argumentStrings.push( subtype + type + value);
+	    			argumentStrings.push( "(" + subtype + type + value + ")" );
 	    		}
 	    		
 	    		var paramString = arguments.length + " arguments: { ";
@@ -141,19 +144,42 @@
 	    		return paramString;
 	    	};
 	    	
+	    	function failedConstruction() {
+	    		sudokuInterface = Sudoku.sudokuInterface.apply(null, arguments);
+	            ok(sudokuInterface.getError(), testParameterString.apply(null, arguments) + "so construction failed, error is: " + sudokuInterface.getError());
+	    	}
+	    	
 	    	//Construction, no arguments
-	    	var sudokuInterface = Sudoku.sudokuInterface();
-            ok(sudokuInterface.getError(), "No arguments provided, so construction failed, and this error was generated: " + sudokuInterface.getError());
+	    	failedConstruction();
             
-            //Construction, width one undefined parameter 
-            sudokuInterface = Sudoku.sudokuInterface(undefinedParameter);
-            ok(sudokuInterface.getError(), testParameterString(undefinedParameter) + "so construction failed, error is: " + sudokuInterface.getError());
+            //Construction, width one parameter, different values
+            failedConstruction(undefinedParameter);
+            failedConstruction(nullParameter);
+            failedConstruction(negativeIntegerParameter);
+            failedConstruction(negativeFloatParameter);
+            //negativeFloat 
+            sudokuInterface = Sudoku.sudokuInterface(negativeFloatParameter);
+            ok(sudokuInterface.getError(), testParameterString(negativeFloatParameter) + "so construction failed, error is: " + sudokuInterface.getError());
+            //zero 
+            sudokuInterface = Sudoku.sudokuInterface(zeroParameter);
+            ok(sudokuInterface.getError(), testParameterString(zeroParameter) + "so construction failed, error is: " + sudokuInterface.getError());
+            //smallPositiveInt 
+            sudokuInterface = Sudoku.sudokuInterface(smallPositiveIntegerParameter);
+            ok(sudokuInterface.getError(), testParameterString(smallPositiveIntegerParameter) + "so construction failed, error is: " + sudokuInterface.getError());
+            //smallPositiveFloat 
+            sudokuInterface = Sudoku.sudokuInterface(smallPositiveFloatParameter);
+            ok(sudokuInterface.getError(), testParameterString(smallPositiveFloatParameter) + "so construction failed, error is: " + sudokuInterface.getError());
+            //largePositiveFloat
+            sudokuInterface = Sudoku.sudokuInterface(largePositiveFloatParameter);
+            ok(sudokuInterface.getError(), testParameterString(largePositiveFloatParameter) + "so construction failed, error is: " + sudokuInterface.getError());
             
-            //Construction, width one undefined parameter 
-            sudokuInterface = Sudoku.sudokuInterface(nullParameter);
-            ok(sudokuInterface.getError(), testParameterString(nullParameter) + "so construction failed, error is: " + sudokuInterface.getError());
-            
-            //Const
+            //Construction, two paramters, different values
+            //undefined, undefined 
+            sudokuInterface = Sudoku.sudokuInterface(undefinedParameter, undefinedParameter);
+            ok(sudokuInterface.getError(), testParameterString(undefinedParameter, undefinedParameter) + "so construction failed, error is: " + sudokuInterface.getError());
+            //null, null 
+            sudokuInterface = Sudoku.sudokuInterface(nullParameter, nullParameter);
+            ok(sudokuInterface.getError(), testParameterString(undefinedParameter, undefinedParameter) + "so construction failed, error is: " + sudokuInterface.getError());
 	    });
 	    
 	    test("interface width testing", function() {
