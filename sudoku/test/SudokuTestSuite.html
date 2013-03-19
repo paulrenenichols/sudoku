@@ -11,8 +11,10 @@
     <script src="qunit-1.11.0.js"></script>
     <script src="../main/Sudoku.js"></script>
     <script>
-	    module("sudokuInterface constructor test");
-	    test("successful construction test with 'width' as only parameter", function() {
+	    module("Sudoku.sudokuInterface Construction Tests");
+	    test("Successful Construction Test, width is the only parameter", function() {
+	    	
+	    	//Construction with width === 900 pixels
 	    	var width = 900;
 	    	var sudokuInterface = Sudoku.sudokuInterface(width);
 	    	var expectedInterfaceWidth = (sudokuInterface.getCountOfTiles() * sudokuInterface.calculateTileWidth(width)) +
@@ -23,6 +25,7 @@
 	    	ok(sudokuInterface.getWidth() === sudokuInterface.getWidth(), "interface constructed using width (type " + typeof width +  ") " + 
                     width + " pixels succeeded with sudokuInterface.getWidth() (type " + typeof sudokuInterface.getWidth() + ") " + sudokuInterface.getWidth());
 	    	
+	        //Construction with width === 300 pixels
 	    	width = 300;
             sudokuInterface = Sudoku.sudokuInterface(width);
             expectedInterfaceWidth = (sudokuInterface.getCountOfTiles() * sudokuInterface.calculateTileWidth(width)) +
@@ -33,6 +36,7 @@
             ok(sudokuInterface.getWidth() === sudokuInterface.getWidth(), "interface constructed using width (type " + typeof width +  ") " + 
                     width + " pixels succeeded with sudokuInterface.getWidth() (type " + typeof sudokuInterface.getWidth() + ") " + sudokuInterface.getWidth());
             
+            //Construction with width === 1200 pixels
             width = 1200;
             sudokuInterface = Sudoku.sudokuInterface(width);
             expectedInterfaceWidth = (sudokuInterface.getCountOfTiles() * sudokuInterface.calculateTileWidth(width)) +
@@ -43,10 +47,115 @@
             ok(sudokuInterface.getWidth() === sudokuInterface.getWidth(), "interface constructed using width (type " + typeof width +  ") " + 
                     width + " pixels succeeded with sudokuInterface.getWidth() (type " + typeof sudokuInterface.getWidth() + ") " + sudokuInterface.getWidth());
 	    });
-	    test("failed construction test", function() {
+	    
+	    test("Failed Construction Test", function() {
+	    	
+	    	var nullParameter = null;
+	    	var undefinedParameter;
+	    	var negativeIntegerParameter = -5;
+	    	var negativeFloatParameter = -3.14;
+	    	var zeroParameter = 0;
+	    	var smallPositiveIntegerParameter = 5;
+	    	var smallPositiveFloatParameter = 3.14;
+	    	var largePositiveIntegerParameter = 900;
+	    	var largePositiveFloatParameter = 1000.99;
+	    	
+	    	function isFloat(value) {
+	    		if ( (typeof value === 'number') && (value !== Math.floor(value)) ) {
+	    			return true;
+	    		}
+	    		else {
+	    			return false;
+	    		}
+	    	}
+	    	
+	        function isPositive(value) {
+                if ( (typeof value === 'number') && (value > 0) ) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            }
+	    	
+	        function isNegative(value) {
+                if ( (typeof value === 'number') && (value < 0) ) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            }
+	        
+	    	function testParameterString() {
+	    		
+	    		var i;
+	    		var argumentStrings = [];
+	    		var type;
+	    		var subtype;
+	    		var value;
+	    		for( i = 0; i < arguments.length; i++ ) {
+	    			
+	    			type = typeof arguments[i];
+	    			subtype = '';
+	    			value = arguments[i];
+	    			
+	    			if (type === 'number') {
+	    								
+	    				if ( value === 0 ) {
+	    					subtype = 'zero';
+	    				}
+	    				else if ( isPositive(value) && isFloat(value) ) {
+	    					subtype = 'positive float ';
+	    				}
+	    				else if ( isNegative(value) && isFloat(value) ) {
+                            subtype = 'negative float ';
+                        }
+	    				else if ( isPositive(value) && !isFloat(value) ) {
+                            subtype = 'positive integer ';
+                        }
+                        else if ( isNegative(value) && !isFloat(value) ) {
+                            subtype = 'negative integer ';
+                        }
+	    				
+	    				value = " " + value;
+	    			}
+	    			else if ( (type == 'object') && (value === null) ) {
+	    			    value = " " + value;
+	    			}
+	    			
+	    			argumentStrings.push( subtype + type + value);
+	    		}
+	    		
+	    		var paramString = arguments.length + " arguments: { ";
+	    		for ( i = 0; i < argumentStrings.length; i++ ) {
+	    			
+	    			paramString = paramString + argumentStrings[i];
+	    			
+	    			if ( i !== argumentStrings.length - 1 ) {
+	    			    paramString = paramString + ', ';	
+	    			}
+
+	    		}
+	    		paramString = paramString + " }, ";
+	    		return paramString;
+	    	};
+	    	
+	    	//Construction, no arguments
 	    	var sudokuInterface = Sudoku.sudokuInterface();
-            ok(sudokuInterface.getError(), "No arguments, this error was generated: " + sudokuInterface.getError());
+            ok(sudokuInterface.getError(), "No arguments provided, so construction failed, and this error was generated: " + sudokuInterface.getError());
+            
+            //Construction, width one undefined parameter 
+            sudokuInterface = Sudoku.sudokuInterface(undefinedParameter);
+            ok(sudokuInterface.getError(), testParameterString(undefinedParameter) + "so construction failed, error is: " + sudokuInterface.getError());
+            
+            //Construction, width one undefined parameter 
+            sudokuInterface = Sudoku.sudokuInterface(nullParameter);
+            ok(sudokuInterface.getError(), testParameterString(nullParameter) + "so construction failed, error is: " + sudokuInterface.getError());
+            
+            //Const
 	    });
+	    
 	    test("interface width testing", function() {
 	    	ok(Sudoku.sudokuInterface(900).getWidth() <= 900, "test works");
 	    });
