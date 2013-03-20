@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Sudoku Interface Version 1</title>
+<script src="js/lib/modernizr.js"></script>
+<script type="text/javascript">
+window.onerror = function(msg, url, line) {
+	var errorDiv = document.getElementById("error");
+	
+	errorDiv.textContent = msg + "  line: " + line;
+};
+
+var writeDebug = (function() {
+	var debugMessages = [];
+	var maxMsgs = 10;
+	
+	return function(msg) {
+		debugMessages.unshift(msg);
+		
+		if(debugMessages.length > maxMsgs) {
+			debugMessages.pop();
+		}
+		
+		var debugMsg = "";
+		var i = 0;
+		while((i < debugMessages.length) && (i < maxMsgs)) {
+			debugMsg += debugMessages[i] + "<br>";
+			i++;
+		}
+		var debugDiv = document.getElementById("debug");
+		
+		debugDiv.innerHTML = debugMsg;
+	};
+}());
+
+window.addEventListener('load', eventWindowLoaded, false);
+
+function eventWindowLoaded() {
+	writeDebug("window loaded");
+	canvasApp();
+};
+
+window.addEventListener('keyup', keyUpHandler, false);
+
+function keyUpHandler(e) {
+	//writeDebug("keyUp");
+	//writeDebug("keyCode: " + e.keyCode);
+	var debugWindow = document.getElementById("devTest");
+	//writeDebug("window.getComputedStyle(debugWindow, null).visibility " + window.getComputedStyle(debugWindow, null).visibility);
+	if(e.keyCode == 68) {
+		var debugWindowVisibility = window.getComputedStyle(debugWindow, null).visibility;
+		if (debugWindowVisibility == 'hidden') {
+			debugWindow.style.visibility = 'visible';
+		}
+		else if (debugWindowVisibility == 'visible') {
+			debugWindow.style.visibility = 'hidden';
+		}
+	}
+};
+function canvasSupport() {
+	return Modernizr.canvas;
+};
+
+function canvasApp() {
+	
+	var numberTileNormal = 0;
+	var numberTileHighlighted = 60;
+	var numberTileClicked = 120;
+	var numberTileLocked = 180;
+	
+	var numberTileDimension = 60;
+	
+	var backgroundFillColor = "#ffffff";
+	var numberTileDrawingPositions = [5, 70, 135, 200, 265, 330, 395, 460, 525];
+	var numberTileDetectionPositions = [[5, 65], 
+	                                    [70, 130], 
+	                                    [135, 195], 
+	                                    [200, 260], 
+	                                    [265, 325], 
+	                                    [330, 390], 
+	                                    [395, 455], 
+	                                    [460, 520], 
+	                                    [525, 585]];
+	
+	var sudokuNumberArray =[[2, 0, 0, 0, 0, 0, 0, 0, 0],
+							[0, 0, 0, 0, 0, 0, 0, 0, 0],
+							[0, 0, 0, 0, 0, 0, 0, 0, 0],
+							[0, 0, 0, 5, 0, 0, 0, 0, 0],
+							[0, 0, 1, 0, 0, 0, 0, 0, 0],
+							[0, 0, 0, 0, 0, 0, 0, 0, 0],
+							[0, 0, 0, 0, 0, 9, 0, 0, 0],
+							[0, 0, 0, 0, 0, 0, 0, 0, 0],
+							[0, 0, 0, 0, 0, 0, 0, 0, 0]];
+	
+	writeDebug("testing for canvas support");
+	
+	if (!canvasSupport()) {
+		return;
+	}
+	
+	writeDebug("have canvas support");
+	
+	var theCanvas = document.getElementById("canvas");
+	var context = theCanvas.getContext("2d");
+	
+	writeDebug("have canvas, context");
+	
+	var mouseX;
+	var mouseY;
+	
+	var currentRowIndex;
+	var currentColumnIndex;
+	
+	writeDebug("loading game images");
+	
+	
+	var numberTilesLoadedFlag = false;
+	
+	var numberTiles = new Image();
+	numberTiles.addEventListener('load', numberTilesLoaded, false);
+	numberTiles.src = "images/number_tiles.png";
+	
+	var sudokuBoard = new Image();
+	sudokuBoard.addEventListener('load', sudokuBoardLoaded, false);
+	sudokuBoard.src = "images/sudoku_board.png";
+
+	function numberTilesLoaded() {
+		writeDebug("numberTilesLoaded");
+		numberTilesLoadedFlag = true;
+	}
+	
+	function sudokuBoardLoaded() {
+		writeDebug("sudokuBoardLoaded");
+		drawSudokuBoard();
+		
+		if(numberTilesLoadedFlag) {
+			drawNumberTiles();
+		}
+	}
+
+	
+	function drawSudokuBoard() {
+		context.fillStyle = backgroundFillColor;
+		context.fillRect(0, 0, theCanvas.width, theCanvas.height);
+		context.drawImage(sudokuBoard, 0, 0);
+	}
+	
+	writeDebug("declaring drawNumberTile");
+	function drawNumberTile(numberTileState, rowIndex, columnIndex) {	
+		
+		if (!((rowIndex >= 0) && (rowIndex < 9))) {
+			return;
+		}
+		
+		if  (!((columnIndex >= 0) && (columnIndex < 9))) {
+			return;
+		}
+		
+		var number = sudokuNumberArray[rowIndex][columnIndex];
+		
+		if (!((number >= 0) && (number <= 9))) {
+			return;
+		}
+		
+		var sourceX = numberTileState;
+		var sourceY = number * numberTileDimension;
+		
+		var destX = numberTileDrawingPositions[rowIndex];
+		var destY = numberTileDrawingPositions[columnIndex];
+		
+		context.drawImage(numberTiles, sourceX, sourceY, 
+				numberTileDimension, numberTileDimension, 
+				destX, destY, numberTileDimension, numberTileDimension);
+	}
+	
+	
+	function drawNumberTiles() {
+		for (var rowIndex = 0; rowIndex < 9; rowIndex++) {
+			for (var columnIndex = 0; columnIndex < 9; columnIndex++) {
+				drawNumberTile(numberTileNormal, rowIndex, columnIndex);
+			}
+		}
+	}
+	
+	function drawHighlightedNumberTile(rowIndex, columnIndex) {
+		drawNumberTile(numberTileHighlighted, rowIndex, columnIndex);
+	}
+	
+	function drawClickedNumberTile(rowIndex, columnIndex) {
+		drawNumberTile(numberTileClicked, rowIndex, columnIndex);
+	}
+	
+	function calculateCurrentColumnIndex() {
+		for (var i = 0; i < 9; i++) {
+			var rangeArray = numberTileDetectionPositions[i];
+			if ((mouseY >= rangeArray[0]) && (mouseY < rangeArray[1])) {
+				currentColumnIndex = i;
+				return;
+			}
+		}
+	}
+	
+	function calculateCurrentRowIndex() {
+		for (var i = 0; i < 9; i++) {
+			var rangeArray = numberTileDetectionPositions[i];
+			if ((mouseX >= rangeArray[0]) && (mouseX < rangeArray[1])) {
+				currentRowIndex = i;
+				return;
+			}
+		}
+	}
+	
+	function onMouseMove(e) {
+		
+		//writeDebug("in onMouseMove");
+		mouseX = e.clientX - theCanvas.offsetLeft;
+		mouseY = e.clientY - theCanvas.offsetTop;
+		
+		writeDebug("calculating indexes");
+		calculateCurrentRowIndex();
+		calculateCurrentColumnIndex();
+		writeDebug("curRowIndex: " + currentRowIndex + " curColIndex: " + currentColumnIndex);
+		//writeDebug("mouseX, mouseY: " + mouseX + ", " + mouseY);
+		//writeDebug("theCanvas.offsetLeft: " + theCanvas.offsetLeft + " theCanvas.offsetTop: " + theCanvas.offsetTop);
+		
+		drawSudokuBoard();
+		
+		if(numberTilesLoadedFlag) {
+			drawNumberTiles();
+			drawHighlightedNumberTile(currentRowIndex, currentColumnIndex);
+		}
+	}
+	
+	function onMouseClick(e) {
+		writeDebug("in onMouseClick");
+		writeDebug("click: " + mouseX + "," + mouseY);
+		drawSudokuBoard();
+		if(numberTilesLoadedFlag) {
+			sudokuNumberArray[currentRowIndex][currentColumnIndex] 
+				= (sudokuNumberArray[currentRowIndex][currentColumnIndex] + 1) % 10;
+			drawNumberTiles();
+			drawClickedNumberTile(currentRowIndex, currentColumnIndex);
+		}
+	}
+	
+	theCanvas.addEventListener("mousemove", onMouseMove, false);
+	theCanvas.addEventListener("click", onMouseClick, false);
+
+	
+};
+</script>
+<style>
+	#debug { border: 2pt solid black;  width: 400px; height: 200px; }
+	#error { border: 2pt solid red;  width: 400px; height: 200px; margin-bottom: 10px; }
+	#devTest { float: right; visibility: hidden; }
+	p { position: absolute; top: 0px; left: 50px; height: 30 px; }
+</style>
+</head>
+<body>
+		<p>Click the squares to cycle through the numbers. <br>
+		Press "d" key to display debug window.</p>
+	<div>
+		<canvas id="canvas" width="590" height="590" style="position: absolute; top: 70px; left: 50px;">
+			Your browser does not support HTML5 Canvas.
+		</canvas>
+		<br>
+
+	</div>
+
+	<div id="devTest">
+		<div id="error">Error Window - No Errors Detected</div>
+		<div id="debug">Debug Window - No Debug Info Printed</div>
+	</div>
+</body>
+</html>
