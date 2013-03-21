@@ -114,6 +114,7 @@ Sudoku.sudokuInterface = function(width, minimumTileWidth, minimumDividerWidth) 
 	/**
 	 * Tests to see if its parameter is undefined.
 	 * 
+	 * @method isUndefined
 	 * @param value
 	 * @returns {Boolean} True if parameter is undefined, false otherwise.
 	 */
@@ -126,6 +127,15 @@ Sudoku.sudokuInterface = function(width, minimumTileWidth, minimumDividerWidth) 
 		}
 	};
 	
+	/**
+	 * Sets the minimum tile width.  The minimum tile width
+	 * represents the smallest size in pixels that a number space
+	 * on a Sudoku game board can be.
+	 * 
+	 * @method setMinimumTileWidth
+	 * @param minimumTileWidth {Number} A positive integer.
+	 * @returns false if no error, otherwise an error message
+	 */
 	function setMinimumTileWidth(minimumTileWidth) {
 		
 		_error = false;
@@ -139,10 +149,24 @@ Sudoku.sudokuInterface = function(width, minimumTileWidth, minimumDividerWidth) 
 		return _error;
 	};
 
+	/**
+	 * Retrieve the current minimum tile width.
+	 * 
+	 * @method getMinimumTileWidth
+	 * @returns {Number} The minimum tile width.
+	 */
 	function getMinimumTileWidth() {
 		return _minimumTileWidth;
 	};
 	
+	/**
+	 * Sets the minimum divider width.  Dividers are the lines
+	 * that separate individual tiles on a Sudoku game board.
+	 * 
+	 * @method setMinimumDividerWidth
+	 * @param minimumDividerWidth {Number} A positive integer
+	 * @returns {Number} false if successful, error message otherwise
+	 */
 	function setMinimumDividerWidth(minimumDividerWidth) {
 		
 		_error = false;
@@ -156,14 +180,32 @@ Sudoku.sudokuInterface = function(width, minimumTileWidth, minimumDividerWidth) 
 		return _error;
 	};
 	
+	/**
+	 * Retrieves the current minimum divider width
+	 * 
+	 * @method getMinimumDividerWidth
+	 * @returns {Number} The minimum divider width
+	 */
 	function getMinimumDividerWidth() {
 		return _minimumDividerWidth;
 	};
 	
+	/**
+	 * Retrieves the default minimum tile width.
+	 * 
+	 * @method getDefaultMinimumTileWidth
+	 * @returns {Number} A positive integer.
+	 */
 	function getDefaultMinimumTileWidth() {
 		return _defaultMinimumTileWidth;
 	};
 	
+	/**
+	 * Retrieves the default minimum divider width.
+	 * 
+	 * @method getDefaultMinimumDividerWidth
+	 * @returns {Number} A positive integer.
+	 */
 	function getDefaultMinimumDividerWidth() {
 		return _defaultMinimumDividerWidth;
 	};

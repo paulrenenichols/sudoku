@@ -376,6 +376,225 @@
             testIsUndefined(smallPositiveIntegerParameter, false);
             testIsUndefined(largePositiveIntegerParameter, false);
         });
+	    
+	    module("minimum tile width tests");
+	    test("getMinimumTileWidth() returns the default value if setMinimumTileWidth() is never called", function() {
+	    	
+	    	var si = Sudoku.sudokuInterface(900);
+	    	var defaultMinimumWidth = si.getDefaultMinimumTileWidth();
+	    	var minimumWidth = si.getMinimumTileWidth();
+	    	ok(defaultMinimumWidth === minimumWidth, "getDefaultMinimumTileWidth() returns " + 
+	    			defaultMinimumWidth + " and getMinimumTileWidth() returns " + minimumWidth);
+	    });
+	    test("getMinimumTileWidth() returns the value given to successful calls to setMinimumTileWidth()", function() {
+            
+            var si = Sudoku.sudokuInterface(900);
+            var defaultMinimumWidth = si.getDefaultMinimumTileWidth();
+            var minimumWidth = si.getMinimumTileWidth();
+            ok(defaultMinimumWidth === minimumWidth, "getDefaultMinimumTileWidth() returns " + 
+            		defaultMinimumWidth + " and getMinimumTileWidth() returns " + minimumWidth);
+            
+            si.setMinimumTileWidth(20);
+            defaultMinimumWidth = si.getDefaultMinimumTileWidth();
+            minimumWidth = si.getMinimumTileWidth();
+            ok(minimumWidth === 20, "getMinimumTileWidth() returns 20");
+            ok(defaultMinimumWidth !== minimumWidth, "getDefaultMinimumTileWidth() returns " + 
+            		defaultMinimumWidth + " and getMinimumTileWidth() returns " + minimumWidth);
+        });
+	    test("after a bad call to setMinimumTileWidth(), getMinimumTileWidth() returns the same value it returned before the bad call", function() {
+            
+	    	var undefinedParameter;
+	    	
+            var si = Sudoku.sudokuInterface(900);
+            var defaultMinimumWidth = si.getDefaultMinimumTileWidth();
+            var minimumWidth = si.getMinimumTileWidth();
+            ok(defaultMinimumWidth === minimumWidth, "getDefaultMinimumTileWidth() returns " + 
+            		defaultMinimumWidth + " and getMinimumTileWidth() returns " + minimumWidth);
+            
+            si.setMinimumTileWidth(-5);
+            defaultMinimumWidth = si.getDefaultMinimumTileWidth();
+            minimumWidth = si.getMinimumTileWidth();
+            ok(si.getError(), "we made a bad call to setMinimumTileWidth(), this error occurred: " + si.getError());
+            ok(defaultMinimumWidth === minimumWidth, 
+            		"minimumTileWidth is still the default value: getDefaultMinimumTileWidth() returns " + 
+            		defaultMinimumWidth + " and getMinimumTileWidth() returns " + minimumWidth);
+            
+            si.setMinimumTileWidth(20);
+            defaultMinimumWidth = si.getDefaultMinimumTileWidth();
+            minimumWidth = si.getMinimumTileWidth();
+            ok(minimumWidth === 20, "getMinimumTileWidth() returns 20 after a successful call to setMinimumTileWidth()");
+            ok(defaultMinimumWidth !== minimumWidth, "getDefaultMinimumTileWidth() returns " + 
+            		defaultMinimumWidth + " and getMinimumTileWidth() returns " + minimumWidth);
+            
+            si.setMinimumTileWidth(undefinedParameter);
+            defaultMinimumWidth = si.getDefaultMinimumTileWidth();
+            minimumWidth = si.getMinimumTileWidth();
+            ok(si.getError(), "we made a bad call to setMinimumTileWidth(), this error occurred: " + si.getError());
+            ok(minimumWidth === 20, "getMinimumTileWidth() still returns 20");
+            ok(defaultMinimumWidth !== minimumWidth, 
+            		"minimumTileWidth is still 20, default still 10: getDefaultMinimumTileWidth() returns " + 
+            		defaultMinimumWidth + " and getMinimumTileWidth() returns " + minimumWidth);
+        });
+       test("Only positive integers change the value of the minimum tile width, other values generate errors", function() {
+            
+            var nullParameter = null;
+            var trueParameter = true;
+            var falseParameter = false;
+            var undefinedParameter;
+            var negativeIntegerParameter = -5;
+            var negativeFloatParameter = -3.14;
+            var zeroParameter = 0;
+            var smallPositiveIntegerParameter = 5;
+            var smallPositiveFloatParameter = 3.14;
+            var largePositiveIntegerParameter = 900;
+            var largePositiveFloatParameter = 1000.99;
+            
+            function setMinimumTileWidthTest(value, errorIsExpected) {
+            	var si = Sudoku.sudokuInterface(900);
+                si.setMinimumTileWidth(value);
+                var defaultMinimumWidth = si.getDefaultMinimumTileWidth();
+                var minimumWidth = si.getMinimumTileWidth();
+
+                if (errorIsExpected) {
+                    ok(si.getError(), "we made a bad call to setMinimumTileWidth() with parameter " + 
+                    		TestHelp.testParameterString(value) + ", this error occurred: " + si.getError());
+                    ok(defaultMinimumWidth === minimumWidth, "minimumTileWidth is still the default value: getDefaultMinimumTileWidth() returns " + 
+                    		defaultMinimumWidth + " and getMinimumTileWidth() returns " + minimumWidth);
+                    ok(minimumWidth !== value, "minimum tile width is NOT equal to the parameter given to setMinimumTileWidth()");
+                }
+                else {
+                	ok(!si.getError(), "we made a good call to setMinimumTileWidth() with parameter " + 
+                			TestHelp.testParameterString(value) + ", no error");
+                	ok(defaultMinimumWidth !== minimumWidth, "getDefaultMinimumTileWidth() returns " + 
+                            defaultMinimumWidth + " and getMinimumTileWidth() returns " + minimumWidth);
+                    ok(minimumWidth === value, "minimum tile width is equal to the parameter given to setMinimumTileWidth()");
+                }
+            };
+            
+            setMinimumTileWidthTest(undefinedParameter, true);
+            
+            setMinimumTileWidthTest(nullParameter, true);
+            setMinimumTileWidthTest(trueParameter, true);
+            setMinimumTileWidthTest(falseParameter, true);
+            setMinimumTileWidthTest(negativeFloatParameter, true);
+            setMinimumTileWidthTest(negativeIntegerParameter, true);
+            setMinimumTileWidthTest(zeroParameter, true);
+            setMinimumTileWidthTest(smallPositiveFloatParameter, true);
+            setMinimumTileWidthTest(largePositiveFloatParameter, true);
+            
+            setMinimumTileWidthTest(smallPositiveIntegerParameter, false);
+            setMinimumTileWidthTest(largePositiveIntegerParameter, false);
+        });
+       
+       module("minimum divider width tests");
+       test("getMinimumDividerWidth() returns the default value if setMinimumDividerWidth() is never called", function() {
+           
+           var si = Sudoku.sudokuInterface(900);
+           var defaultMinimumWidth = si.getDefaultMinimumDividerWidth();
+           var minimumWidth = si.getMinimumDividerWidth();
+           ok(defaultMinimumWidth === minimumWidth, "getDefaultMinimumDividerWidth() returns " + 
+        		   defaultMinimumWidth + " and getMinimumDividerWidth() returns " + minimumWidth);
+       });
+       test("getMinimumDividerWidth() returns the value given to successful calls to setMinimumDividerWidth()", function() {
+           
+           var si = Sudoku.sudokuInterface(900);
+           var defaultMinimumWidth = si.getDefaultMinimumDividerWidth();
+           var minimumWidth = si.getMinimumDividerWidth();
+           ok(defaultMinimumWidth === minimumWidth, "getDefaultMinimumDividerWidth() returns " + 
+        		   defaultMinimumWidth + " and getMinimumDividerWidth() returns " + minimumWidth);
+           
+           si.setMinimumDividerWidth(20);
+           defaultMinimumWidth = si.getDefaultMinimumDividerWidth();
+           minimumWidth = si.getMinimumDividerWidth();
+           ok(minimumWidth === 20, "getMinimumDividerWidth() returns 20");
+           ok(defaultMinimumWidth !== minimumWidth, "getDefaultMinimumDividerWidth() returns " + 
+        		   defaultMinimumWidth + " and getMinimumDividerWidth() returns " + minimumWidth);
+       });
+       test("after a bad call to setMinimumDividerWidth(), getMinimumDividerWidth() returns the same value it returned before the bad call", function() {
+           
+           var undefinedParameter;
+           
+           var si = Sudoku.sudokuInterface(900);
+           var defaultMinimumWidth = si.getDefaultMinimumDividerWidth();
+           var minimumWidth = si.getMinimumDividerWidth();
+           ok(defaultMinimumWidth === minimumWidth, 
+        		   "getDefaultMinimumDividerWidth() returns " + defaultMinimumWidth + 
+        		   " and getMinimumDividerWidth() returns " + minimumWidth);
+           
+           si.setMinimumDividerWidth(-5);
+           defaultMinimumWidth = si.getDefaultMinimumDividerWidth();
+           minimumWidth = si.getMinimumDividerWidth();
+           ok(si.getError(), "we made a bad call to setMinimumDividerWidth(), this error occurred: " + si.getError());
+           ok(defaultMinimumWidth === minimumWidth, 
+        		   "minimumDividerWidth is still the default value: getDefaultMinimumDividerWidth() returns " 
+        		   + defaultMinimumWidth + " and getMinimumDividerWidth() returns " + minimumWidth);
+           
+           si.setMinimumDividerWidth(20);
+           defaultMinimumWidth = si.getDefaultMinimumDividerWidth();
+           minimumWidth = si.getMinimumDividerWidth();
+           ok(minimumWidth === 20, "getMinimumDividerWidth() returns 20 after a successful call to setMinimumDividerWidth()");
+           ok(defaultMinimumWidth !== minimumWidth, "getDefaultMinimumDividerWidth() returns " + 
+        		   defaultMinimumWidth + " and getMinimumDividerWidth() returns " + minimumWidth);
+           
+           si.setMinimumDividerWidth(undefinedParameter);
+           defaultMinimumWidth = si.getDefaultMinimumDividerWidth();
+           minimumWidth = si.getMinimumDividerWidth();
+           ok(si.getError(), "we made a bad call to setMinimumDividerWidth(), this error occurred: " + si.getError());
+           ok(minimumWidth === 20, "getMinimumDividerWidth() still returns 20");
+           ok(defaultMinimumWidth !== minimumWidth, 
+        		   "minimumDividerWidth is still 20, default still 10: getDefaultMinimumDividerWidth() returns " + 
+                   defaultMinimumWidth + " and getMinimumDividerWidth() returns " + minimumWidth);
+       });
+      test("Only positive integers change the value of the minimum Divider width, other values generate errors", function() {
+           
+           var nullParameter = null;
+           var trueParameter = true;
+           var falseParameter = false;
+           var undefinedParameter;
+           var negativeIntegerParameter = -5;
+           var negativeFloatParameter = -3.14;
+           var zeroParameter = 0;
+           var smallPositiveIntegerParameter = 5;
+           var smallPositiveFloatParameter = 3.14;
+           var largePositiveIntegerParameter = 900;
+           var largePositiveFloatParameter = 1000.99;
+           
+           function setMinimumDividerWidthTest(value, errorIsExpected) {
+               var si = Sudoku.sudokuInterface(900);
+               si.setMinimumDividerWidth(value);
+               var defaultMinimumWidth = si.getDefaultMinimumDividerWidth();
+               var minimumWidth = si.getMinimumDividerWidth();
+
+               if (errorIsExpected) {
+                   ok(si.getError(), "we made a bad call to setMinimumDividerWidth() with parameter " + 
+                           TestHelp.testParameterString(value) + ", this error occurred: " + si.getError());
+                   ok(defaultMinimumWidth === minimumWidth, "minimumDividerWidth is still the default value: getDefaultMinimumDividerWidth() returns " + 
+                           defaultMinimumWidth + " and getMinimumDividerWidth() returns " + minimumWidth);
+                   ok(minimumWidth !== value, "minimum Divider width is NOT equal to the parameter given to setMinimumDividerWidth()");
+               }
+               else {
+                   ok(!si.getError(), "we made a good call to setMinimumDividerWidth() with parameter " + 
+                           TestHelp.testParameterString(value) + ", no error");
+                   ok(defaultMinimumWidth !== minimumWidth, "getDefaultMinimumDividerWidth() returns " + 
+                           defaultMinimumWidth + " and getMinimumDividerWidth() returns " + minimumWidth);
+                   ok(minimumWidth === value, "minimum Divider width is equal to the parameter given to setMinimumDividerWidth()");
+               }
+           };
+           
+           setMinimumDividerWidthTest(undefinedParameter, true);
+           
+           setMinimumDividerWidthTest(nullParameter, true);
+           setMinimumDividerWidthTest(trueParameter, true);
+           setMinimumDividerWidthTest(falseParameter, true);
+           setMinimumDividerWidthTest(negativeFloatParameter, true);
+           setMinimumDividerWidthTest(negativeIntegerParameter, true);
+           setMinimumDividerWidthTest(zeroParameter, true);
+           setMinimumDividerWidthTest(smallPositiveFloatParameter, true);
+           setMinimumDividerWidthTest(largePositiveFloatParameter, true);
+           
+           setMinimumDividerWidthTest(smallPositiveIntegerParameter, false);
+           setMinimumDividerWidthTest(largePositiveIntegerParameter, false);
+       });
     </script>
 </body>
 </html>
