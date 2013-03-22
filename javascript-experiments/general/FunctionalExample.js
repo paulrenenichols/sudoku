@@ -1,6 +1,7 @@
 
 var functionalObject = function(initArg1, initArg2) {
 	
+	
 	/*
 	 * private variables.  
 	 * The variable "_that" will be returned by this function

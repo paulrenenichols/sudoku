@@ -210,23 +210,60 @@ Sudoku.sudokuInterface = function(width, minimumTileWidth, minimumDividerWidth) 
 		return _defaultMinimumDividerWidth;
 	};
 	
+	/**
+	 * Retrieves the current tile width
+	 * 
+	 * @method getTileWidth
+	 * @returns {Number} Current tile width 
+	 */
 	function getTileWidth() {
 		return _tileWidth;
 	};
 	
-	function calculateTileWidth(width) {
+	/**
+	 * Calculate a tile width based the current
+	 * minimum width multiplier and minimum tile width.
+	 * 
+	 * @method calculateTileWidth
+	 * @returns {Number} Calculate tile width.
+	 */
+	function calculateTileWidth() {
 		
 		return getMinimumTileWidth() * getMinimumWidthMultiplier();
 	};
 	
+	/**
+	 * Retrieves the current divider width
+	 * 
+	 * @method getDividerWidth
+	 * @returns {Number} The divider width
+	 */
 	function getDividerWidth() {
 		return _dividerWidth;
 	};
 	
-	function calculateDividerWidth(width) {
+	/**
+	 * Calculate a divider width based on the current
+	 * minimum divider width and the minimum width multiplier
+	 * 
+	 * @method calculateDividerWidth
+	 * @returns {Number} Calculate divider width.
+	 */
+	function calculateDividerWidth() {
 		return getMinimumDividerWidth() * getMinimumWidthMultiplier();
 	};
 	
+	/**
+	 * Retrieves the current minimum width.
+	 * The minimum width is the size of the Sudoku game
+	 * board if the minimum width multiplier is 1.
+	 * A board of this size will have a tile size equal
+	 * to the minimum tile size and a divider size equal
+	 * to the minimum divider size.
+	 * 
+	 * @method getMinimumWidth
+	 * @returns {Number} The minimum width that a sudoku game board can be.
+	 */
 	function getMinimumWidth() {
 		return _minimumWidth;
 	};
@@ -313,6 +350,7 @@ Sudoku.sudokuInterface = function(width, minimumTileWidth, minimumDividerWidth) 
 		_error = false;
 		
 		if ( isPositiveInteger(width) && isPositiveInteger(minimumTileWidth) && isPositiveInteger(minimumDividerWidth) ) {		
+			
 			setMinimumTileWidth(minimumTileWidth);
 			setMinimumDividerWidth(minimumDividerWidth);
 			_minimumWidth = calculateMinimumWidth(minimumTileWidth, minimumDividerWidth);
@@ -327,6 +365,7 @@ Sudoku.sudokuInterface = function(width, minimumTileWidth, minimumDividerWidth) 
 		}
 		else if ( isPositiveInteger(width) && 
 				isUndefined(minimumTileWidth) && isUndefined(minimumDividerWidth) ) {
+			
 			setMinimumTileWidth(_defaultMinimumTileWidth);
 			setMinimumDividerWidth(_defaultMinimumDividerWidth);
 			_minimumWidth = calculateMinimumWidth(_minimumTileWidth, _minimumDividerWidth);

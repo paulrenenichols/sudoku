@@ -545,7 +545,7 @@
         		   "minimumDividerWidth is still 20, default still 10: getDefaultMinimumDividerWidth() returns " + 
                    defaultMinimumWidth + " and getMinimumDividerWidth() returns " + minimumWidth);
        });
-      test("Only positive integers change the value of the minimum Divider width, other values generate errors", function() {
+       test("Only positive integers change the value of the minimum Divider width, other values generate errors", function() {
            
            var nullParameter = null;
            var trueParameter = true;
@@ -595,6 +595,8 @@
            setMinimumDividerWidthTest(smallPositiveIntegerParameter, false);
            setMinimumDividerWidthTest(largePositiveIntegerParameter, false);
        });
+       
+       
     </script>
 </body>
 </html>
