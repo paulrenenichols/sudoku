@@ -1,6 +1,6 @@
 /**
- * Provides all functionality necessary for running an html5
- * canvas based game in a web browser.
+ * Provides all functionality necessary for running an HTML5
+ * canvas based Sudoku game in a web browser.
  * 
  * @module Sudoku
  */
