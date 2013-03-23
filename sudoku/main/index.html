@@ -2,9 +2,22 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Sudoku</title>
+<title>Sudoku Dev Page</title>
 </head>
 <body>
 
 </body>
+<script src="../lib/modernizr.js"></script>
+<script src="../lib/jquery-1.9.1.min.js"></script>
+<script src="SudokuInterface.js"></script>
+<script src="../test/BasicMockSudokuGame.js"></script>
+<script type="text/javascript">
+$(document).ready( function{
+	
+	function browserSupportsCanvas() {
+	    return Modernizr.canvas;
+	};
+	
+});
+</script>
 </html>
