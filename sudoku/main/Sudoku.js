@@ -132,6 +132,8 @@ Sudoku.sudokuInterface = function(width, minimumTileWidth, minimumDividerWidth) 
 	 * represents the smallest size in pixels that a number space
 	 * on a Sudoku game board can be.
 	 * 
+	 * After setting a new minimum tile width, .
+	 * 
 	 * @method setMinimumTileWidth
 	 * @param minimumTileWidth {Number} A positive integer.
 	 * @returns false if no error, otherwise an error message
@@ -144,6 +146,7 @@ Sudoku.sudokuInterface = function(width, minimumTileWidth, minimumDividerWidth) 
 		}
 		else {
 			_minimumTileWidth = minimumTileWidth;
+			_width = calculateMinimumWidth(_minimumTileWidth, _minimumDividerWidth);
 		}
 		
 		return _error;
@@ -175,6 +178,7 @@ Sudoku.sudokuInterface = function(width, minimumTileWidth, minimumDividerWidth) 
 		}
 		else {
 			 _minimumDividerWidth = minimumDividerWidth;
+			 _width = calculateMinimumWidth(_minimumTileWidth, _minimumDividerWidth);
 		}
 		
 		return _error;
