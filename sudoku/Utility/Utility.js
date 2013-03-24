@@ -223,7 +223,7 @@ var Utility = {};
             if ( isNumber(value) ) {
                                 
                 if ( isZeroNumber(value) ) {
-                    subtype = 'zero';
+                    subtype = 'zero ';
                 }
                 else if ( isPositiveFloat(value) ) {
                     subtype = 'positive float ';

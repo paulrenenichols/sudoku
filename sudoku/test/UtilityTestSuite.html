@@ -19,6 +19,9 @@
         var trueParameter = true;
         var falseParameter = false;
         var undefinedParameter;
+        var emptyObjectParameter = {};
+        var emptyArrayParameter = [];
+        
         var negativeIntegerParameter = -5;
         var negativeFloatParameter = -3.14;
         var zeroParameter = 0;
@@ -28,10 +31,10 @@
         var largePositiveFloatParameter = 1000.99;
         
         function testBooleanFunction(func, funcName, argument, expectedBooleanResult) {
-        	
-        	var args = [];
-        	args.push(argument);
-        	ok(func.apply(null, args) === expectedBooleanResult, "expected " + funcName + " to return " + expectedBooleanResult + " when called with " + Utility.argumentsToString.apply(null, args) );
+
+        	ok(func.call(null, argument) === expectedBooleanResult, "expected " + funcName +
+        			" to return **" + expectedBooleanResult + "** when called with " + 
+        			Utility.argumentsToString.call(null, argument) );
         };
         
         console.log("about to conduct first test");
@@ -40,15 +43,260 @@
 
             var isNumber = Utility.isNumber;
         	testBooleanFunction(isNumber, "Utility.isNumber", nullParameter, false);
-        	testBooleanFunction(isNumber, "Utility.isNumber", smallPositiveFloatParameter, true);
+        	testBooleanFunction(isNumber, "Utility.isNumber", trueParameter, false);
+        	testBooleanFunction(isNumber, "Utility.isNumber", falseParameter, false);
+        	testBooleanFunction(isNumber, "Utility.isNumber", undefinedParameter, false);
+        	testBooleanFunction(isNumber, "Utility.isNumber", emptyObjectParameter, false);
+        	testBooleanFunction(isNumber, "Utility.isNumber", emptyArrayParameter, false);
         	
-        	ok(Utility.isNumber(nullParameter) === false, "expected isNumber to return false when called with " + Utility.argumentsToString.apply(nullParameter) );
+        	testBooleanFunction(isNumber, "Utility.isNumber", negativeIntegerParameter, true);
+        	testBooleanFunction(isNumber, "Utility.isNumber", negativeFloatParameter, true);
+        	testBooleanFunction(isNumber, "Utility.isNumber", zeroParameter, true);
+        	testBooleanFunction(isNumber, "Utility.isNumber", smallPositiveIntegerParameter, true);
+        	testBooleanFunction(isNumber, "Utility.isNumber", smallPositiveFloatParameter, true);
+        	testBooleanFunction(isNumber, "Utility.isNumber", largePositiveIntegerParameter, true);
+        	testBooleanFunction(isNumber, "Utility.isNumber", largePositiveFloatParameter, true);
+        	       	
         });
-        module("Utility.isNumber tests");
-        test("testing isNumber", function() {
-        	ok(Utility.isNumber(zeroParameter) === true, "zero is a number");
+        
+        module("Utility.isInteger Tests");
+        test("tests different paramter types on Utility.isInteger", function() {
+
+            var isInteger = Utility.isInteger;
+            testBooleanFunction(isInteger, "Utility.isInteger", nullParameter, false);
+            testBooleanFunction(isInteger, "Utility.isInteger", trueParameter, false);
+            testBooleanFunction(isInteger, "Utility.isInteger", falseParameter, false);
+            testBooleanFunction(isInteger, "Utility.isInteger", undefinedParameter, false);
+            testBooleanFunction(isInteger, "Utility.isInteger", emptyObjectParameter, false);
+            testBooleanFunction(isInteger, "Utility.isInteger", emptyArrayParameter, false);
+            
+            testBooleanFunction(isInteger, "Utility.isInteger", negativeFloatParameter, false);
+            testBooleanFunction(isInteger, "Utility.isInteger", smallPositiveFloatParameter, false);
+            testBooleanFunction(isInteger, "Utility.isInteger", largePositiveFloatParameter, false);
+            
+            testBooleanFunction(isInteger, "Utility.isInteger", negativeIntegerParameter, true);
+            testBooleanFunction(isInteger, "Utility.isInteger", zeroParameter, true);
+            testBooleanFunction(isInteger, "Utility.isInteger", smallPositiveIntegerParameter, true);
+            testBooleanFunction(isInteger, "Utility.isInteger", largePositiveIntegerParameter, true);
         });
     	
+        module("Utility.isPositiveInteger Tests");
+        test("tests different paramter types on Utility.isPositiveInteger", function() {
+
+            var isPositiveInteger = Utility.isPositiveInteger;
+            testBooleanFunction(isPositiveInteger, "Utility.isPositiveInteger", nullParameter, false);
+            testBooleanFunction(isPositiveInteger, "Utility.isPositiveInteger", trueParameter, false);
+            testBooleanFunction(isPositiveInteger, "Utility.isPositiveInteger", falseParameter, false);
+            testBooleanFunction(isPositiveInteger, "Utility.isPositiveInteger", undefinedParameter, false);
+            testBooleanFunction(isPositiveInteger, "Utility.isPositiveInteger", emptyObjectParameter, false);
+            testBooleanFunction(isPositiveInteger, "Utility.isPositiveInteger", emptyArrayParameter, false);
+            
+            testBooleanFunction(isPositiveInteger, "Utility.isPositiveInteger", negativeFloatParameter, false);
+            testBooleanFunction(isPositiveInteger, "Utility.isPositiveInteger", smallPositiveFloatParameter, false);
+            testBooleanFunction(isPositiveInteger, "Utility.isPositiveInteger", largePositiveFloatParameter, false);
+            
+            testBooleanFunction(isPositiveInteger, "Utility.isPositiveInteger", negativeIntegerParameter, false);
+            testBooleanFunction(isPositiveInteger, "Utility.isPositiveInteger", zeroParameter, false);
+            
+            testBooleanFunction(isPositiveInteger, "Utility.isPositiveInteger", smallPositiveIntegerParameter, true);
+            testBooleanFunction(isPositiveInteger, "Utility.isPositiveInteger", largePositiveIntegerParameter, true);
+        });
+        
+        module("Utility.isNegativeInteger Tests");
+        test("tests different paramter types on Utility.isNegativeInteger", function() {
+
+            var isNegativeInteger = Utility.isNegativeInteger;
+            testBooleanFunction(isNegativeInteger, "Utility.isNegativeInteger", nullParameter, false);
+            testBooleanFunction(isNegativeInteger, "Utility.isNegativeInteger", trueParameter, false);
+            testBooleanFunction(isNegativeInteger, "Utility.isNegativeInteger", falseParameter, false);
+            testBooleanFunction(isNegativeInteger, "Utility.isNegativeInteger", undefinedParameter, false);
+            testBooleanFunction(isNegativeInteger, "Utility.isNegativeInteger", emptyObjectParameter, false);
+            testBooleanFunction(isNegativeInteger, "Utility.isNegativeInteger", emptyArrayParameter, false);
+            
+            testBooleanFunction(isNegativeInteger, "Utility.isNegativeInteger", negativeFloatParameter, false);
+            testBooleanFunction(isNegativeInteger, "Utility.isNegativeInteger", smallPositiveFloatParameter, false);
+            testBooleanFunction(isNegativeInteger, "Utility.isNegativeInteger", largePositiveFloatParameter, false);
+            
+            testBooleanFunction(isNegativeInteger, "Utility.isNegativeInteger", zeroParameter, false);
+            testBooleanFunction(isNegativeInteger, "Utility.isNegativeInteger", smallPositiveIntegerParameter, false);
+            testBooleanFunction(isNegativeInteger, "Utility.isNegativeInteger", largePositiveIntegerParameter, false);
+            
+            testBooleanFunction(isNegativeInteger, "Utility.isNegativeInteger", negativeIntegerParameter, true);
+            
+        });
+               
+        module("Utility.isFloat Tests");
+        test("tests different paramter types on Utility.isFloat", function() {
+
+            var isFloat = Utility.isFloat;
+            testBooleanFunction(isFloat, "Utility.isFloat", nullParameter, false);
+            testBooleanFunction(isFloat, "Utility.isFloat", trueParameter, false);
+            testBooleanFunction(isFloat, "Utility.isFloat", falseParameter, false);
+            testBooleanFunction(isFloat, "Utility.isFloat", undefinedParameter, false);
+            testBooleanFunction(isFloat, "Utility.isFloat", emptyObjectParameter, false);
+            testBooleanFunction(isFloat, "Utility.isFloat", emptyArrayParameter, false);
+            
+            testBooleanFunction(isFloat, "Utility.isFloat", negativeIntegerParameter, false);
+            testBooleanFunction(isFloat, "Utility.isFloat", zeroParameter, false);
+            testBooleanFunction(isFloat, "Utility.isFloat", smallPositiveIntegerParameter, false);
+            testBooleanFunction(isFloat, "Utility.isFloat", largePositiveIntegerParameter, false);
+            
+            testBooleanFunction(isFloat, "Utility.isFloat", negativeFloatParameter, true);
+            testBooleanFunction(isFloat, "Utility.isFloat", smallPositiveFloatParameter, true);
+            testBooleanFunction(isFloat, "Utility.isFloat", largePositiveFloatParameter, true);
+        });
+        
+        module("Utility.isPositiveFloat Tests");
+        test("tests different paramter types on Utility.isPositiveFloat", function() {
+
+            var isPositiveFloat = Utility.isPositiveFloat;
+            testBooleanFunction(isPositiveFloat, "Utility.isPositiveFloat", nullParameter, false);
+            testBooleanFunction(isPositiveFloat, "Utility.isPositiveFloat", trueParameter, false);
+            testBooleanFunction(isPositiveFloat, "Utility.isPositiveFloat", falseParameter, false);
+            testBooleanFunction(isPositiveFloat, "Utility.isPositiveFloat", undefinedParameter, false);
+            testBooleanFunction(isPositiveFloat, "Utility.isPositiveFloat", emptyObjectParameter, false);
+            testBooleanFunction(isPositiveFloat, "Utility.isPositiveFloat", emptyArrayParameter, false);
+            
+            testBooleanFunction(isPositiveFloat, "Utility.isPositiveFloat", negativeIntegerParameter, false);
+            testBooleanFunction(isPositiveFloat, "Utility.isPositiveFloat", zeroParameter, false);
+            testBooleanFunction(isPositiveFloat, "Utility.isPositiveFloat", smallPositiveIntegerParameter, false);
+            testBooleanFunction(isPositiveFloat, "Utility.isPositiveFloat", largePositiveIntegerParameter, false);
+            
+            testBooleanFunction(isPositiveFloat, "Utility.isPositiveFloat", negativeFloatParameter, false);
+            
+            testBooleanFunction(isPositiveFloat, "Utility.isPositiveFloat", smallPositiveFloatParameter, true);
+            testBooleanFunction(isPositiveFloat, "Utility.isPositiveFloat", largePositiveFloatParameter, true);
+        });
+        
+        module("Utility.isNegativeFloat Tests");
+        test("tests different paramter types on Utility.isNegativeFloat", function() {
+
+            var isNegativeFloat = Utility.isNegativeFloat;
+            testBooleanFunction(isNegativeFloat, "Utility.isNegativeFloat", nullParameter, false);
+            testBooleanFunction(isNegativeFloat, "Utility.isNegativeFloat", trueParameter, false);
+            testBooleanFunction(isNegativeFloat, "Utility.isNegativeFloat", falseParameter, false);
+            testBooleanFunction(isNegativeFloat, "Utility.isNegativeFloat", undefinedParameter, false);
+            testBooleanFunction(isNegativeFloat, "Utility.isNegativeFloat", emptyObjectParameter, false);
+            testBooleanFunction(isNegativeFloat, "Utility.isNegativeFloat", emptyArrayParameter, false);
+            
+            testBooleanFunction(isNegativeFloat, "Utility.isNegativeFloat", negativeIntegerParameter, false);
+            testBooleanFunction(isNegativeFloat, "Utility.isNegativeFloat", zeroParameter, false);
+            testBooleanFunction(isNegativeFloat, "Utility.isNegativeFloat", smallPositiveIntegerParameter, false);
+            testBooleanFunction(isNegativeFloat, "Utility.isNegativeFloat", largePositiveIntegerParameter, false);
+            
+            testBooleanFunction(isNegativeFloat, "Utility.isNegativeFloat", smallPositiveFloatParameter, false);
+            testBooleanFunction(isNegativeFloat, "Utility.isNegativeFloat", largePositiveFloatParameter, false);
+            
+            testBooleanFunction(isNegativeFloat, "Utility.isNegativeFloat", negativeFloatParameter, true);
+        });
+        
+        module("Utility.isZeroNumber Tests");
+        test("tests different paramter types on Utility.isZeroNumber", function() {
+
+            var isZeroNumber = Utility.isZeroNumber;
+            testBooleanFunction(isZeroNumber, "Utility.isZeroNumber", nullParameter, false);
+            testBooleanFunction(isZeroNumber, "Utility.isZeroNumber", trueParameter, false);
+            testBooleanFunction(isZeroNumber, "Utility.isZeroNumber", falseParameter, false);
+            testBooleanFunction(isZeroNumber, "Utility.isZeroNumber", undefinedParameter, false);
+            testBooleanFunction(isZeroNumber, "Utility.isZeroNumber", emptyObjectParameter, false);
+            testBooleanFunction(isZeroNumber, "Utility.isZeroNumber", emptyArrayParameter, false);
+            
+            testBooleanFunction(isZeroNumber, "Utility.isZeroNumber", negativeIntegerParameter, false);
+            
+            testBooleanFunction(isZeroNumber, "Utility.isZeroNumber", smallPositiveIntegerParameter, false);
+            testBooleanFunction(isZeroNumber, "Utility.isZeroNumber", largePositiveIntegerParameter, false);
+            
+            testBooleanFunction(isZeroNumber, "Utility.isZeroNumber", smallPositiveFloatParameter, false);
+            testBooleanFunction(isZeroNumber, "Utility.isZeroNumber", largePositiveFloatParameter, false);
+            
+            testBooleanFunction(isZeroNumber, "Utility.isZeroNumber", negativeFloatParameter, false);
+            
+            testBooleanFunction(isZeroNumber, "Utility.isZeroNumber", zeroParameter, true);
+        });
+        
+        module("Utility.isUndefined Tests");
+        test("tests different paramter types on Utility.isUndefined", function() {
+
+            var isUndefined = Utility.isUndefined;
+            testBooleanFunction(isUndefined, "Utility.isUndefined", nullParameter, false);
+            testBooleanFunction(isUndefined, "Utility.isUndefined", trueParameter, false);
+            testBooleanFunction(isUndefined, "Utility.isUndefined", falseParameter, false);
+            
+            testBooleanFunction(isUndefined, "Utility.isUndefined", emptyObjectParameter, false);
+            testBooleanFunction(isUndefined, "Utility.isUndefined", emptyArrayParameter, false);
+            
+            testBooleanFunction(isUndefined, "Utility.isUndefined", negativeIntegerParameter, false);
+            
+            testBooleanFunction(isUndefined, "Utility.isUndefined", smallPositiveIntegerParameter, false);
+            testBooleanFunction(isUndefined, "Utility.isUndefined", largePositiveIntegerParameter, false);
+            
+            testBooleanFunction(isUndefined, "Utility.isUndefined", smallPositiveFloatParameter, false);
+            testBooleanFunction(isUndefined, "Utility.isUndefined", largePositiveFloatParameter, false);
+            
+            testBooleanFunction(isUndefined, "Utility.isUndefined", negativeFloatParameter, false);
+            
+            testBooleanFunction(isUndefined, "Utility.isUndefined", zeroParameter, false);
+            
+            testBooleanFunction(isUndefined, "Utility.isUndefined", undefinedParameter, true);
+        });
+        
+        module("Utility.isNull Tests");
+        test("tests different paramter types on Utility.isNull", function() {
+
+            var isNull = Utility.isNull;
+            
+            testBooleanFunction(isNull, "Utility.isNull", trueParameter, false);
+            testBooleanFunction(isNull, "Utility.isNull", falseParameter, false);
+            
+            testBooleanFunction(isNull, "Utility.isNull", emptyObjectParameter, false);
+            testBooleanFunction(isNull, "Utility.isNull", emptyArrayParameter, false);
+            
+            testBooleanFunction(isNull, "Utility.isNull", negativeIntegerParameter, false);
+            
+            testBooleanFunction(isNull, "Utility.isNull", smallPositiveIntegerParameter, false);
+            testBooleanFunction(isNull, "Utility.isNull", largePositiveIntegerParameter, false);
+            
+            testBooleanFunction(isNull, "Utility.isNull", smallPositiveFloatParameter, false);
+            testBooleanFunction(isNull, "Utility.isNull", largePositiveFloatParameter, false);
+            
+            testBooleanFunction(isNull, "Utility.isNull", negativeFloatParameter, false);
+            
+            testBooleanFunction(isNull, "Utility.isNull", zeroParameter, false);
+            
+            testBooleanFunction(isNull, "Utility.isNull", undefinedParameter, false);
+            
+            testBooleanFunction(isNull, "Utility.isNull", nullParameter, true);
+        });
+
+        module("Utility.isBoolean Tests");
+        test("tests different paramter types on Utility.isBoolean", function() {
+
+            var isBoolean = Utility.isBoolean;
+            
+            
+            
+            testBooleanFunction(isBoolean, "Utility.isBoolean", emptyObjectParameter, false);
+            testBooleanFunction(isBoolean, "Utility.isBoolean", emptyArrayParameter, false);
+            
+            testBooleanFunction(isBoolean, "Utility.isBoolean", negativeIntegerParameter, false);
+            
+            testBooleanFunction(isBoolean, "Utility.isBoolean", smallPositiveIntegerParameter, false);
+            testBooleanFunction(isBoolean, "Utility.isBoolean", largePositiveIntegerParameter, false);
+            
+            testBooleanFunction(isBoolean, "Utility.isBoolean", smallPositiveFloatParameter, false);
+            testBooleanFunction(isBoolean, "Utility.isBoolean", largePositiveFloatParameter, false);
+            
+            testBooleanFunction(isBoolean, "Utility.isBoolean", negativeFloatParameter, false);
+            
+            testBooleanFunction(isBoolean, "Utility.isBoolean", zeroParameter, false);
+            
+            testBooleanFunction(isBoolean, "Utility.isBoolean", undefinedParameter, false);
+            
+            testBooleanFunction(isBoolean, "Utility.isBoolean", nullParameter, false);
+            
+            testBooleanFunction(isBoolean, "Utility.isBoolean", trueParameter, true);
+            testBooleanFunction(isBoolean, "Utility.isBoolean", falseParameter, true);
+        });
     });
     </script>
 </body>
