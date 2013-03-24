@@ -3,7 +3,7 @@
  * 
  * @module Utility
  */
-var Utility = {};
+var Utility = Utility ? Utility : {};
 
 (function() {
 	

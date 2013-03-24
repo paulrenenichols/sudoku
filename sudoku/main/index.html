@@ -5,7 +5,7 @@
 <title>Sudoku Dev Page</title>
 </head>
 <body>
-
+    <canvas id="sudokuCanvas" width="200" height="200"></canvas>
 </body>
 <script src="../lib/modernizr.js"></script>
 <script src="../lib/jquery-1.9.1.min.js"></script>
@@ -15,10 +15,24 @@
 <script type="text/javascript">
 $(document).ready( function{
 	
+	var sudokuCanvas;
+	var sudokuInterface;
+	var basicMockSudokuGame;
+	
 	function browserSupportsCanvas() {
 	    return Modernizr.canvas;
 	};
 	
+	if (!browserSupportsCanvas()) {
+		return;
+	};
+	
+	sudokuCanvas = $('#sudokuCanvas').get();
+	
+	basicMockSudokuGame = SudokuTest.basicMockSudokuGame();
+	sudokuIterface = Sudoku.sudokuInterface(sudokuCanvas, basicMockSudokuGame);
+	
+	sudokuInterface.draw();
 });
 </script>
 </html>

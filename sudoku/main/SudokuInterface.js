@@ -18,4 +18,15 @@ var Sudoku = Sudoku ? Sudoku : {};
 Sudoku.sudokuInterface = function(canvas, sudokuGame) {
 	
 	var _that = {};
+	
+	var drawingContext = canvas.getContext("2d");
+	
+	function draw() {
+		
+		
+	};
+	
+	_that.draw = draw;
+	
+	return _that;
 };
