@@ -19,14 +19,67 @@ Sudoku.sudokuInterface = function(canvas, sudokuGame) {
 	
 	var _that = {};
 	
-	var drawingContext = canvas.getContext("2d");
+	var _tileWidth = 60;
+	var _bigDividerWidth = 10;
+	var _smallDividerWidth = 3;
+	var _lineWidth = 598;
+	
+	var _drawingContext = canvas.getContext("2d");
+	
+	function drawHorizontalDividers() {
+		
+		var yCoordinate = 0;
+		
+		
+		_drawingContext.fillStyle = "#000000";
+		
+		_drawingContext.fillRect(0, yCoordinate, _lineWidth - 1, _bigDividerWidth);
+		yCoordinate += _bigDividerWidth + _tileWidth;
+		
+		_drawingContext.fillRect(0, yCoordinate, _lineWidth - 1, _smallDividerWidth);
+		yCoordinate += _smallDividerWidth + _tileWidth;
+		
+		_drawingContext.fillRect(0, yCoordinate, _lineWidth - 1, _smallDividerWidth);
+		yCoordinate += _smallDividerWidth + _tileWidth;
+		
+		_drawingContext.fillRect(0, yCoordinate, _lineWidth - 1, _bigDividerWidth);
+		yCoordinate += _bigDividerWidth + _tileWidth;
+		
+		_drawingContext.fillRect(0, yCoordinate, _lineWidth - 1, _smallDividerWidth);
+		yCoordinate += _smallDividerWidth + _tileWidth;
+		
+		_drawingContext.fillRect(0, yCoordinate, _lineWidth - 1, _smallDividerWidth);
+		yCoordinate += _smallDividerWidth + _tileWidth;
+		
+		_drawingContext.fillRect(0, yCoordinate, _lineWidth - 1, _bigDividerWidth);
+		yCoordinate += _bigDividerWidth + _tileWidth;
+		
+		_drawingContext.fillRect(0, yCoordinate, _lineWidth - 1, _smallDividerWidth);
+		yCoordinate += _smallDividerWidth + _tileWidth;
+		
+		_drawingContext.fillRect(0, yCoordinate, _lineWidth - 1, _smallDividerWidth);
+		yCoordinate += _smallDividerWidth + _tileWidth;
+		
+		_drawingContext.fillRect(0, yCoordinate, _lineWidth - 1, _bigDividerWidth);
+	};
+	
+	function drawEmptyGameBoard() {
+		
+		//_drawingContext.setTransform(1,0,0,1,0,0);
+		drawHorizontalDividers();
+		
+		_drawingContext.save();
+		
+		_drawingContext.rotate(Math.PI / 2);
+		_drawingContext.scale(1, -1);
+		
+		drawHorizontalDividers();
+		_drawingContext.restore();
+		
+	};
 	
 	function draw() {
-		
-		drawingContext.strokeStyle = "#000000";
-		drawingContext.lineWidth = 5;
-		drawingContext.lineJoin = 'round';
-		drawingContext.strokeRect(10, 10, 180, 180);
+		drawEmptyGameBoard();
 	};
 	
 	_that.draw = draw;
