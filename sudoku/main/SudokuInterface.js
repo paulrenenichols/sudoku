@@ -23,7 +23,10 @@ Sudoku.sudokuInterface = function(canvas, sudokuGame) {
 	
 	function draw() {
 		
-		
+		drawingContext.strokeStyle = "#000000";
+		drawingContext.lineWidth = 5;
+		drawingContext.lineJoin = 'round';
+		drawingContext.strokeRect(10, 10, 180, 180);
 	};
 	
 	_that.draw = draw;
