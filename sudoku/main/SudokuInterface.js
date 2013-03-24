@@ -7,11 +7,15 @@
 var Sudoku = Sudoku ? Sudoku : {};
 
 /**
-  * @class sudokuInterface
-  * @constructor 
-  * @return {Object} A sudokuInterface object
-  */
-Sudoku.sudokuInterface = function() {
+ * Constructs a Sudoku Interface Object
+ * 
+ * @class sudokuInterface
+ * @constructor 
+ * @param canvas {Object} An HTML5 Canvas Element for drawing the interface
+ * @param sudokuGame {Object} An object that stores Sudoku Game State
+ * @return {Object} A sudokuInterface object
+ */
+Sudoku.sudokuInterface = function(canvas, sudokuGame) {
 	
 	var _that = {};
 };
