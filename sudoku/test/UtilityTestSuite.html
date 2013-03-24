@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+    <title>Utility Test Suite</title>
+    <link rel="stylesheet" href="qunit-1.11.0.css">
+</head>
+<body>
+    <div id="qunit"></div>
+    <div id="qunit-fixture"></div>
+    <script src="../lib/jquery-1.9.1.min.js"></script>
+    <script src="qunit-1.11.0.js"></script>
+    <script src="../Utility/Utility.js"></script>
+    <script src="../main/SudokuInterface.js"></script>
+    <script>
+    $(document).ready( function() {
+    	
+    	var nullParameter = null;
+        var trueParameter = true;
+        var falseParameter = false;
+        var undefinedParameter;
+        var negativeIntegerParameter = -5;
+        var negativeFloatParameter = -3.14;
+        var zeroParameter = 0;
+        var smallPositiveIntegerParameter = 5;
+        var smallPositiveFloatParameter = 3.14;
+        var largePositiveIntegerParameter = 900;
+        var largePositiveFloatParameter = 1000.99;
+        
+        function testBooleanFunction(func, funcName, argument, expectedBooleanResult) {
+        	
+        	var args = [];
+        	args.push(argument);
+        	ok(func.apply(null, args) === expectedBooleanResult, "expected " + funcName + " to return " + expectedBooleanResult + " when called with " + Utility.argumentsToString.apply(null, args) );
+        };
+        
+        console.log("about to conduct first test");
+        module("Utility.isNumber Tests");
+        test("tests different paramter types on Utility.isNumber", function() {
+
+            var isNumber = Utility.isNumber;
+        	testBooleanFunction(isNumber, "Utility.isNumber", nullParameter, false);
+        	testBooleanFunction(isNumber, "Utility.isNumber", smallPositiveFloatParameter, true);
+        	
+        	ok(Utility.isNumber(nullParameter) === false, "expected isNumber to return false when called with " + Utility.argumentsToString.apply(nullParameter) );
+        });
+        module("Utility.isNumber tests");
+        test("testing isNumber", function() {
+        	ok(Utility.isNumber(zeroParameter) === true, "zero is a number");
+        });
+    	
+    });
+    </script>
+</body>
+</html>

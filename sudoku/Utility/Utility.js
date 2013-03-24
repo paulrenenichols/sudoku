@@ -3,7 +3,7 @@
  * 
  * @module Utility
  */
-var Utility = Utility ? Utility : {};
+var Utility = {};
 
 (function() {
 	
@@ -13,7 +13,7 @@ var Utility = Utility ? Utility : {};
 	 * @param value
 	 * @returns {Boolean} True if value is a number, false otherwise
 	 */
-	Utility.isNumber = function isNumber(value) {
+	function isNumber(value) {
 		if ( !isNaN(value) && ( typeof value === 'number') ) {
 			return true;
 		}
@@ -21,6 +21,7 @@ var Utility = Utility ? Utility : {};
 			return false;
 		}
 	};
+	Utility.isNumber = isNumber;
 	
 	/**
 	 * Tests to see if its parameter is an integer
@@ -28,13 +29,13 @@ var Utility = Utility ? Utility : {};
 	 * @param value
 	 * @returns {Boolean} True if value is an Integer, false otherwise
 	 */
-	Utility.isInteger = function isInteger(value) {
+	function isInteger(value) {
 		var absoluteValue;
 		
 		if ( isNumber(value) ) {
 			
 			absoluteValue = Math.abs(value);
-			if ( (asoluteValue === Math.floor(absoluteValue)) ) {
+			if ( (absoluteValue === Math.floor(absoluteValue)) ) {
 				
 				return true;
 			}
@@ -46,6 +47,7 @@ var Utility = Utility ? Utility : {};
 			return false;
 		}
 	};
+	Utility.isInteger = isInteger;
 	
 	/**
 	 * Tests to see if its parameter is an float
@@ -53,13 +55,13 @@ var Utility = Utility ? Utility : {};
 	 * @param value
 	 * @returns {Boolean} True if value is a float, false otherwise
 	 */
-	Utility.isFloat = function isFloat(value) {
+	function isFloat(value) {
 		var absoluteValue;
 		
 		if ( isNumber(value) ) {
 			
 			absoluteValue = Math.abs(value);
-			if ( (asoluteValue !== Math.floor(absoluteValue)) ) {
+			if ( (absoluteValue !== Math.floor(absoluteValue)) ) {
 				
 				return true;
 			}
@@ -71,6 +73,7 @@ var Utility = Utility ? Utility : {};
 			return false;
 		}
 	};
+	Utility.isFloat = isFloat;
 	
 	/**
 	 * Tests to see if its parameter is a positive integer.
@@ -78,7 +81,7 @@ var Utility = Utility ? Utility : {};
 	 * @param value
 	 * @returns {Boolean} True if value is a positive integer, false otherwise.
 	 */
-	Utility.isPositiveInteger = function isPositiveInteger(value) {
+	function isPositiveInteger(value) {
 		if ( isInteger(value) && (value > 0) ) {
 			
 			return true;
@@ -87,6 +90,7 @@ var Utility = Utility ? Utility : {};
 			return false;
 		}
 	};
+	Utility.isPositiveInteger = isPositiveInteger;
 	
 	/**
 	 * Tests to see if its parameter is a negative integer.
@@ -94,7 +98,7 @@ var Utility = Utility ? Utility : {};
 	 * @param value
 	 * @returns {Boolean} True if value is a negative integer, false otherwise.
 	 */
-	Utility.isNegativeInteger = function isNegativeInteger(value) {
+	function isNegativeInteger(value) {
 		if ( isInteger(value) && (value < 0) ) {
 			
 			return true;
@@ -103,6 +107,7 @@ var Utility = Utility ? Utility : {};
 			return false;
 		}
 	};
+	Utility.isNegativeInteger = isNegativeInteger;
 	
 	/**
 	 * Tests to see if its parameter is a positive float.
@@ -110,7 +115,7 @@ var Utility = Utility ? Utility : {};
 	 * @param value
 	 * @returns {Boolean} True if value is a positive float, false otherwise.
 	 */
-	Utility.isPositiveFloat = function isPositiveFloat(value) {
+	function isPositiveFloat(value) {
 		if ( isFloat(value) && (value > 0) ) {
 			
 			return true;
@@ -119,6 +124,7 @@ var Utility = Utility ? Utility : {};
 			return false;
 		}
 	};
+	Utility.isPositiveFloat = isPositiveFloat;
 	
 	/**
 	 * Tests to see if its parameter is a negative float.
@@ -126,7 +132,7 @@ var Utility = Utility ? Utility : {};
 	 * @param value
 	 * @returns {Boolean} True if value is a negative float, false otherwise.
 	 */
-	Utility.isNegativeFloat = function isNegativeFloat(value) {
+	function isNegativeFloat(value) {
 		if ( isFloat(value) && (value < 0) ) {
 			
 			return true;
@@ -135,6 +141,7 @@ var Utility = Utility ? Utility : {};
 			return false;
 		}
 	};
+	Utility.isNegativeFloat = isNegativeFloat;
 	
 	/**
 	 * Tests to see if its parameter is a zero number
@@ -142,7 +149,7 @@ var Utility = Utility ? Utility : {};
 	 * @param value
 	 * @returns {Boolean} True if value is a zero number, false otherwise
 	 */
-	Utility.isZeroNumber = function isZeroNumber(value) {
+	function isZeroNumber(value) {
 		if ( isNumber(value) && (value === 0) ) {
 			return true;
 		}
@@ -150,6 +157,7 @@ var Utility = Utility ? Utility : {};
 			return false;
 		}
 	};
+	Utility.isZeroNumber = isZeroNumber;
 	
 	/**
 	 * Tests to see if its parameter is undefined.
@@ -157,7 +165,7 @@ var Utility = Utility ? Utility : {};
 	 * @param value
 	 * @returns {Boolean} True if parameter is undefined, false otherwise.
 	 */
-	Utility.isUndefined = function isUndefined(value) {
+	function isUndefined(value) {
 		if (typeof value === 'undefined') {
 			return true;
 		}
@@ -165,6 +173,7 @@ var Utility = Utility ? Utility : {};
 			return false;
 		}
 	};
+	Utility.isUndefined = isUndefined;
 	
 	/**
 	 * Tests to see if its parameter is null.
@@ -172,7 +181,7 @@ var Utility = Utility ? Utility : {};
 	 * @param value
 	 * @returns {Boolean} True if parameter is null, false otherwise.
 	 */
-	Utility.isNull = function isNull(value) {
+	function isNull(value) {
 		if ( (typeof value === 'object') && (value === null) ) {
 			return true;
 		}
@@ -180,14 +189,15 @@ var Utility = Utility ? Utility : {};
 			return false;
 		}
 	};
-
+	Utility.isNull = isNull;
+	
 	/**
 	 * Tests to see if its parameter is boolean.
 	 * 
 	 * @param value
 	 * @returns {Boolean} True if parameter is boolean, false otherwise.
 	 */
-	Utility.isBoolean = function isBoolean(value) {
+	function isBoolean(value) {
 		if ( typeof value === 'boolean' ) {
 			return true;
 		}
@@ -195,6 +205,7 @@ var Utility = Utility ? Utility : {};
 			return false;
 		}
 	};
+	Utility.isBoolean = isBoolean;
 	
     function argumentsToString() {
         
@@ -255,4 +266,6 @@ var Utility = Utility ? Utility : {};
         paramString = paramString + " }, ";
         return paramString;
     };
+    Utility.argumentsToString = argumentsToString;
+    
 }());
