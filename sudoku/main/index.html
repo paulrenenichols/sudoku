@@ -5,8 +5,12 @@
 <title>Sudoku Dev Page</title>
 </head>
 <body>
-    <p id="test"></p>
+    <div>
+        <p id="test">Empty</p>
+        <textarea id="widthInput" rows="1" cols="8">300</textarea>
+    </div>
     <canvas id="sudokuCanvas" width="598" height="598"></canvas>
+    
 </body>
 <script src="../lib/modernizr-2.6.2.min.js"></script>
 <script src="../lib/jquery-1.9.1.min.js"></script>
@@ -19,6 +23,7 @@ $(document).ready( function() {
 	var sudokuCanvas;
 	var sudokuInterface;
 	var basicMockSudokuGame;
+	var gameBoardWidth;
 	
 	function browserSupportsCanvas() {
 	    return Modernizr.canvas;
@@ -28,9 +33,19 @@ $(document).ready( function() {
 		return;
 	};
 	
-	$('#test').text( "bob" );
-	sudokuCanvas = $('#sudokuCanvas').get(0);
 	
+	sudokuCanvas = $('#sudokuCanvas');
+	$('#test').text( sudokuCanvas.attr('width') );
+	
+	
+	
+	
+	gameBoardWidth = parseInt( $('#widthInput').val() );
+	
+    $('#test').text(Utility.isPositiveInteger(gameBoardWidth) + " " + gameBoardWidth);
+    //sudokuCanvas.get(0).height = gameBoardWidth;
+    //sudokuCanvas.attr('width', gameBoardWidth);
+	//sudokuCanvas.attr('height', gameBoardWidth);
 	basicMockSudokuGame = SudokuTest.basicMockSudokuGame();
 	sudokuInterface = Sudoku.sudokuInterface(sudokuCanvas, basicMockSudokuGame);
 	
