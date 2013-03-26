@@ -5,12 +5,21 @@
 <title>Sudoku Dev Page</title>
 </head>
 <body>
-    <div>
-        <p id="test">Empty</p>
-        <textarea id="widthInput" rows="1" cols="8">300</textarea>
-    </div>
+
     <canvas id="sudokuCanvas" width="598" height="598"></canvas>
     
+    <div>
+        <p id="test">Empty</p>
+        <label>initial width</label>
+        <p id="initWidth"></p>
+        <label>initial height</label>
+        <p id="initHeight"></p>
+        <label>final width</label>
+        <p id="finalWidth"></p>
+        <label>final height</label>
+        <p id="finalHeight"></p>
+        <textarea id="widthInput" rows="1" cols="8">300</textarea>
+    </div>
 </body>
 <script src="../lib/modernizr-2.6.2.min.js"></script>
 <script src="../lib/jquery-1.9.1.min.js"></script>
@@ -35,21 +44,62 @@ $(document).ready( function() {
 	
 	
 	sudokuCanvas = $('#sudokuCanvas');
-	$('#test').text( sudokuCanvas.attr('width') );
+	$('#initWidth').text( sudokuCanvas.attr('width') );
+	$('#initHeight').text( sudokuCanvas.attr('height') );
 	
-	
-	
-	
-	gameBoardWidth = parseInt( $('#widthInput').val() );
-	
-    $('#test').text(Utility.isPositiveInteger(gameBoardWidth) + " " + gameBoardWidth);
-    //sudokuCanvas.get(0).height = gameBoardWidth;
-    //sudokuCanvas.attr('width', gameBoardWidth);
-	//sudokuCanvas.attr('height', gameBoardWidth);
 	basicMockSudokuGame = SudokuTest.basicMockSudokuGame();
-	sudokuInterface = Sudoku.sudokuInterface(sudokuCanvas, basicMockSudokuGame);
+    sudokuInterface = Sudoku.sudokuInterface(sudokuCanvas, basicMockSudokuGame);
+    
+    sudokuInterface.draw();
 	
-	sudokuInterface.draw();
+	
+	var setNewDimensionsAndDraw = function() {
+		
+		console.log("in setNewDimensionsAndDraw");
+		
+		sudokuCanvas = $('#sudokuCanvas');
+		gameBoardWidth = parseInt( $('#widthInput').val() );
+	    $('#test').text(Utility.isPositiveInteger(gameBoardWidth) + " " + gameBoardWidth);
+	    
+	    
+	    sudokuCanvas.attr('width', gameBoardWidth);
+	    sudokuCanvas.attr('height', gameBoardWidth);
+	    
+	    $('#finalWidth').text( sudokuCanvas.attr('width') );
+	    $('#finalHeight').text( sudokuCanvas.attr('height') );
+	    
+	    basicMockSudokuGame = SudokuTest.basicMockSudokuGame();
+	    sudokuInterface = Sudoku.sudokuInterface(sudokuCanvas, basicMockSudokuGame);
+	    
+	    sudokuInterface.draw();
+	};
+	setTimeout(setNewDimensionsAndDraw(), 10000);
+	
+
+	setTimeout(function() { console.log("bob"); }, 5000);
+	
+    setTimeout(function() {
+        
+        console.log("in anonymous timeout");
+        
+        sudokuCanvas = $('#sudokuCanvas');
+        gameBoardWidth = parseInt( $('#widthInput').val() );
+        $('#test').text(Utility.isPositiveInteger(gameBoardWidth) + " " + gameBoardWidth);
+        
+        
+        sudokuCanvas.attr('width', gameBoardWidth);
+        sudokuCanvas.attr('height', gameBoardWidth);
+        
+        $('#finalWidth').text( sudokuCanvas.attr('width') );
+        $('#finalHeight').text( sudokuCanvas.attr('height') );
+        
+        basicMockSudokuGame = SudokuTest.basicMockSudokuGame();
+        sudokuInterface = Sudoku.sudokuInterface(sudokuCanvas, basicMockSudokuGame);
+        
+        sudokuInterface.draw();
+    }, 10000);
+    
+	
 });
 </script>
 </html>
