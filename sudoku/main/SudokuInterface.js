@@ -38,6 +38,11 @@ Sudoku.sudokuInterface = function(canvas, sudokuGame) {
 	var _drawingContext;
 	
 	/*
+	 * The object responsible for the game play logic.
+	 */
+	var _sudokuGame;
+	
+	/*
 	 * _maxGameBoardWidth is the lesser of the canvas's
 	 *   width and height.  This is the upper limit
 	 *   of the size of our game board.
@@ -82,6 +87,20 @@ Sudoku.sudokuInterface = function(canvas, sudokuGame) {
 	var _bigDividerWidth;
 	var _smallDividerWidth;
 	
+	/*
+	 * This is an array that will store the 'tile positions'.
+	 * The 'tile positions' are the distance in pixels from the
+	 * upper left hand corner of the game board to the start of
+	 * a tile.
+	 * 
+	 * These values will be used to draw the game state onto 
+	 * the game board.  The game state thinks of the game tiles
+	 * in terms of column and row indexes ranging from 0 to 8.
+	 * The game board thinks in pixels.  This is part of the
+	 * bridge between those two schemes.
+	 */
+	var _tilePositions;
+	
 	function init(cavnas, sudokuGame) {
 		
 		//console.log("sudokuInterface: init()");
@@ -89,6 +108,8 @@ Sudoku.sudokuInterface = function(canvas, sudokuGame) {
 		var minimumWidthMultiplier;
 		var leftOverWidth;
 		var extraTileWidth;
+		
+		_sudokuGame = sudokuGame;
 		
 		_canvas = canvas;
 		_canvasHeight = _canvas.attr('height');
@@ -121,6 +142,8 @@ Sudoku.sudokuInterface = function(canvas, sudokuGame) {
 		_gameBoardWidth = ( _countSmallDividers * _smallDividerWidth ) +
 							( _countBigDividers * _bigDividerWidth ) +
 							( _countNumberTiles * _numberTileWidth );
+		
+		calculateTilePositions();
 	};
 	
 	function resize() {
@@ -154,8 +177,40 @@ Sudoku.sudokuInterface = function(canvas, sudokuGame) {
 		_gameBoardWidth = ( _countSmallDividers * _smallDividerWidth ) +
 							( _countBigDividers * _bigDividerWidth ) +
 							( _countNumberTiles * _numberTileWidth );
+		
+		calculateTilePositions();
 	};
 
+	function calculateTilePositions() {
+		_tilePositions = [];
+		
+		//_tilePositions[0]
+		_tilePositions.push(_bigDividerWidth);
+		
+		//_tilePositions[1]
+		_tilePositions.push(_tilePositions[0] + _numberTileWidth + _smallDividerWidth);
+		
+		//_tilePositions[2]
+		_tilePositions.push(_tilePositions[1] + _numberTileWidth + _smallDividerWidth);
+		
+		//_tilePositions[3]
+		_tilePositions.push(_tilePositions[2] + _numberTileWidth + _bigDividerWidth);
+		
+		//_tilePositions[4]
+		_tilePositions.push(_tilePositions[3] + _numberTileWidth + _smallDividerWidth);
+		
+		//_tilePositions[5]
+		_tilePositions.push(_tilePositions[4] + _numberTileWidth + _smallDividerWidth);
+		
+		//_tilePositions[6]
+		_tilePositions.push(_tilePositions[5] + _numberTileWidth + _bigDividerWidth);
+		
+		//_tilePositions[7]
+		_tilePositions.push(_tilePositions[6] + _numberTileWidth + _smallDividerWidth);
+		
+		//_tilePositions[8]
+		_tilePositions.push(_tilePositions[7] + _numberTileWidth + _smallDividerWidth);
+	};
 	
 	function drawHorizontalDividers() {
 		
@@ -211,10 +266,38 @@ Sudoku.sudokuInterface = function(canvas, sudokuGame) {
 		
 	};
 	
+	function drawTile(row, column, value) {
+		var tileCenterX = _tilePositions[column] + ( _numberTileWidth / 2 );
+		var tileCenterY = _tilePositions[row] + ( _numberTileWidth / 2 );
+		
+		_drawingContext.fillText(value, tileCenterX, tileCenterY);
+	};
+	
+	function drawGameState() {
+		console.log("sudokuInterface: drawGameState()");
+		
+		var column;
+		var row;
+		
+		_drawingContext.fillStyle = "#000000";
+		
+		_drawingContext.font = Math.floor(2 * ( _numberTileWidth / 3 ) ) + 'px sans-serif';
+		_drawingContext.textAlign = 'center';
+		_drawingContext.textBaseline = 'middle';
+		
+		for (column = 0; column < _sudokuGame.countOfColumns(); column++) {
+			
+			for (row = 0; row < _sudokuGame.countOfRows(); row++) {
+				drawTile(row, column, _sudokuGame.getTileState(row, column));
+			}
+		}
+	};
+	
 	function draw() {
 		//console.log("sudokuInterface: draw()");
 		console.log("sudokuInterface: draw(): min game board width " + _minimumGameBoardWidth + ", width " + _canvasWidth + ", height " + _canvasHeight);
 		drawEmptyGameBoard();
+		drawGameState();
 	};
 	
 	_that.draw = draw;
