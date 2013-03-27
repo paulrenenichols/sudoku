@@ -84,6 +84,8 @@ Sudoku.sudokuInterface = function(canvas, sudokuGame) {
 	
 	function init(cavnas, sudokuGame) {
 		
+		//console.log("sudokuInterface: init()");
+		
 		var minimumWidthMultiplier;
 		var leftOverWidth;
 		var extraTileWidth;
@@ -91,6 +93,8 @@ Sudoku.sudokuInterface = function(canvas, sudokuGame) {
 		_canvas = canvas;
 		_canvasHeight = _canvas.attr('height');
 		_canvasWidth = _canvas.attr('width');
+		
+		//console.log("sudokuInterface: init(): width " + _canvasWidth + ", height " + _canvasHeight);
 		
 		_drawingContext = canvas.get(0).getContext("2d");
 		
@@ -119,7 +123,43 @@ Sudoku.sudokuInterface = function(canvas, sudokuGame) {
 							( _countNumberTiles * _numberTileWidth );
 	};
 	
+	function resize() {
+		
+		//console.log("sudokuInterface: resize()");
+		
+		var minimumWidthMultiplier;
+		var leftOverWidth;
+		var extraTileWidth;
+		
+		_canvasHeight = _canvas.attr('height');
+		_canvasWidth = _canvas.attr('width');
+		
+		//console.log("sudokuInterface: init(): width " + _canvasWidth + ", height " + _canvasHeight);
+		
+		_drawingContext = canvas.get(0).getContext("2d");
+		
+		_maxGameBoardWidth = ( _canvasHeight < _canvasWidth ) ? _canvasHeight : _canvasWidth; 
+
+		_minimumGameBoardWidth = ( _countSmallDividers * _minimumSmallDividerWidth ) +
+									( _countBigDividers * _minimumBigDividerWidth ) +
+									( _countNumberTiles * _minimumNumberTileWidth );
+		
+		minimumWidthMultiplier = Math.floor( _maxGameBoardWidth / _minimumGameBoardWidth );
+		leftOverWidth = _maxGameBoardWidth - ( minimumWidthMultiplier * _minimumGameBoardWidth );
+		extraTileWidth = Math.floor( leftOverWidth / _countNumberTiles );
+		
+		_numberTileWidth = ( _minimumNumberTileWidth * minimumWidthMultiplier ) +  extraTileWidth;
+		_bigDividerWidth = _minimumBigDividerWidth * minimumWidthMultiplier;
+		_smallDividerWidth = _minimumSmallDividerWidth * minimumWidthMultiplier;
+		_gameBoardWidth = ( _countSmallDividers * _smallDividerWidth ) +
+							( _countBigDividers * _bigDividerWidth ) +
+							( _countNumberTiles * _numberTileWidth );
+	};
+
+	
 	function drawHorizontalDividers() {
+		
+		//console.log("sudokuInterface: drawHorizontalDividers()");
 		
 		var yCoordinate = 0;
 		
@@ -157,8 +197,8 @@ Sudoku.sudokuInterface = function(canvas, sudokuGame) {
 	};
 	
 	function drawEmptyGameBoard() {
+		//console.log("sudokuInterface: drawEmptyGameBoard()");
 		
-		//_drawingContext.setTransform(1,0,0,1,0,0);
 		drawHorizontalDividers();
 		
 		_drawingContext.save();
@@ -172,10 +212,13 @@ Sudoku.sudokuInterface = function(canvas, sudokuGame) {
 	};
 	
 	function draw() {
+		//console.log("sudokuInterface: draw()");
+		console.log("sudokuInterface: draw(): min game board width " + _minimumGameBoardWidth + ", width " + _canvasWidth + ", height " + _canvasHeight);
 		drawEmptyGameBoard();
 	};
 	
 	_that.draw = draw;
+	_that.resize = resize;
 	
 	init(canvas, sudokuGame);
 	

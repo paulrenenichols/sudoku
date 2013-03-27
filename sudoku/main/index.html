@@ -6,20 +6,18 @@
 </head>
 <body>
 
+   <div>
+       Canvas Width:  
+       <input type="range" id="canvasWidthRange"
+       min="0"
+       max="1000"
+       step="1"
+       value="600"/>  
+       <input type="text" id="canvasWidthText" value="600" size=5/>   
+    </div>
     <canvas id="sudokuCanvas" width="598" height="598"></canvas>
     
-    <div>
-        <p id="test">Empty</p>
-        <label>initial width</label>
-        <p id="initWidth"></p>
-        <label>initial height</label>
-        <p id="initHeight"></p>
-        <label>final width</label>
-        <p id="finalWidth"></p>
-        <label>final height</label>
-        <p id="finalHeight"></p>
-        <textarea id="widthInput" rows="1" cols="8">300</textarea>
-    </div>
+ 
 </body>
 <script src="../lib/modernizr-2.6.2.min.js"></script>
 <script src="../lib/jquery-1.9.1.min.js"></script>
@@ -34,6 +32,9 @@ $(document).ready( function() {
 	var basicMockSudokuGame;
 	var gameBoardWidth;
 	
+	var $canvasWidthRange;
+	var $canvasWidthText;
+	
 	function browserSupportsCanvas() {
 	    return Modernizr.canvas;
 	};
@@ -42,64 +43,52 @@ $(document).ready( function() {
 		return;
 	};
 	
+	$canvasWidthRange = $('#canvasWidthRange');
+	$canvasWidthText = $('#canvasWidthText');
+	
+	function canvasWidthRangeInputChange(e) {
+		
+		var width = this.value;
+		$canvasWidthText.val(width);
+		
+		console.log("new width: " + width);
+		
+		sudokuCanvas.attr('width', width);
+        sudokuCanvas.attr('height', width);
+        
+        sudokuInterface.resize();
+        sudokuInterface.draw();
+	};
+	
+   function canvasWidthTextInputChange(e) {
+        
+        var width = parseInt(this.value);
+        
+        if (!Utility.isPositiveInteger(width) && !Utility.isZeroNumber(width)) {
+        	this.value = $canvasWidthRange.val();
+        	return;
+        }
+        
+        $canvasWidthRange.val(width);
+        
+        console.log("new width: " + width);
+        
+        sudokuCanvas.attr('width', width);
+        sudokuCanvas.attr('height', width);
+        
+        sudokuInterface.resize();
+        sudokuInterface.draw();
+    };
 	
 	sudokuCanvas = $('#sudokuCanvas');
-	$('#initWidth').text( sudokuCanvas.attr('width') );
-	$('#initHeight').text( sudokuCanvas.attr('height') );
 	
 	basicMockSudokuGame = SudokuTest.basicMockSudokuGame();
     sudokuInterface = Sudoku.sudokuInterface(sudokuCanvas, basicMockSudokuGame);
     
     sudokuInterface.draw();
-	
-	
-	var setNewDimensionsAndDraw = function() {
-		
-		console.log("in setNewDimensionsAndDraw");
-		
-		sudokuCanvas = $('#sudokuCanvas');
-		gameBoardWidth = parseInt( $('#widthInput').val() );
-	    $('#test').text(Utility.isPositiveInteger(gameBoardWidth) + " " + gameBoardWidth);
-	    
-	    
-	    sudokuCanvas.attr('width', gameBoardWidth);
-	    sudokuCanvas.attr('height', gameBoardWidth);
-	    
-	    $('#finalWidth').text( sudokuCanvas.attr('width') );
-	    $('#finalHeight').text( sudokuCanvas.attr('height') );
-	    
-	    basicMockSudokuGame = SudokuTest.basicMockSudokuGame();
-	    sudokuInterface = Sudoku.sudokuInterface(sudokuCanvas, basicMockSudokuGame);
-	    
-	    sudokuInterface.draw();
-	};
-	setTimeout(setNewDimensionsAndDraw(), 10000);
-	
 
-	setTimeout(function() { console.log("bob"); }, 5000);
-	
-    setTimeout(function() {
-        
-        console.log("in anonymous timeout");
-        
-        sudokuCanvas = $('#sudokuCanvas');
-        gameBoardWidth = parseInt( $('#widthInput').val() );
-        $('#test').text(Utility.isPositiveInteger(gameBoardWidth) + " " + gameBoardWidth);
-        
-        
-        sudokuCanvas.attr('width', gameBoardWidth);
-        sudokuCanvas.attr('height', gameBoardWidth);
-        
-        $('#finalWidth').text( sudokuCanvas.attr('width') );
-        $('#finalHeight').text( sudokuCanvas.attr('height') );
-        
-        basicMockSudokuGame = SudokuTest.basicMockSudokuGame();
-        sudokuInterface = Sudoku.sudokuInterface(sudokuCanvas, basicMockSudokuGame);
-        
-        sudokuInterface.draw();
-    }, 10000);
-    
-	
+    $canvasWidthRange.change(canvasWidthRangeInputChange);
+    $canvasWidthText.change(canvasWidthTextInputChange);
 });
 </script>
 </html>
