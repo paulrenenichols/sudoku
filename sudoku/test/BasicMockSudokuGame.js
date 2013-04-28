@@ -8,7 +8,7 @@ SudokuTest.basicMockSudokuGame = function() {
 	var _that = {};
 	
 	function getTileState(rowIndex, columnIndex) {
-		console.log("basicMockSudokuGame: getTileState()");
+		//console.log("basicMockSudokuGame: getTileState()");
 		return (rowIndex + columnIndex) % 10;
 	};
 	

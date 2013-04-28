@@ -274,7 +274,7 @@ Sudoku.sudokuInterface = function(canvas, sudokuGame) {
 	};
 	
 	function drawGameState() {
-		console.log("sudokuInterface: drawGameState()");
+		//console.log("sudokuInterface: drawGameState()");
 		
 		var column;
 		var row;
