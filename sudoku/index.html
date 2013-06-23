@@ -23,7 +23,7 @@
 <script src="js/lib/jquery-1.9.1.min.js"></script>
 <script src="js/utility/utility.js"></script>
 <script src="js/sudoku/SudokuInterface.js"></script>
-<script src="js/test/BasicMockSudokuGame.js"></script>
+<script src="js/sudoku/BasicMockSudokuGame.js"></script>
 <script type="text/javascript">
 $(document).ready( function() {
 	
@@ -82,8 +82,8 @@ $(document).ready( function() {
 	
 	sudokuCanvas = $('#sudokuCanvas');
 	
-	basicMockSudokuGame = SudokuTest.basicMockSudokuGame();
-    sudokuInterface = Sudoku.sudokuInterface(sudokuCanvas, basicMockSudokuGame);
+	basicMockSudokuGame = BasicMockSudokuGame();
+    sudokuInterface = SudokuInterface(sudokuCanvas, basicMockSudokuGame);
     
     sudokuInterface.draw();
 
