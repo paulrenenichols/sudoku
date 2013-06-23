@@ -15,7 +15,7 @@ var Sudoku = Sudoku ? Sudoku : {};
  * @param sudokuGame {Object} An object that stores Sudoku Game State
  * @return {Object} A sudokuInterface object
  */
-Sudoku.sudokuInterface = function(canvas, sudokuGame) {
+SudokuInterface = function(canvas, sudokuGame) {
 	
 	var _that = {};
 	

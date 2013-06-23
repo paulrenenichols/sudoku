@@ -1,9 +1,6 @@
-/**
- * 
- */
-var SudokuTest = SudokuTest ? SudokuTest : {};
 
-SudokuTest.basicMockSudokuGame = function() {
+
+BasicMockSudokuGame = function() {
 	
 	var _that = {};
 	
